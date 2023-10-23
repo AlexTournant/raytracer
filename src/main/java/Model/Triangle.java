@@ -2,7 +2,7 @@ package Model;
 
 
 public class Triangle {
-    Triplet a, b, c;
+    private Triplet a, b, c;
 
 
     public Triangle(Triplet a, Triplet b, Triplet c) {
