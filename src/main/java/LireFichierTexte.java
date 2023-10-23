@@ -4,7 +4,7 @@ class LireFichierTexte {
         try
         {
             // Le fichier d'entrée
-            File file = new File("/resources/LireFichier.txt");
+            File file = new File("src\\main\\resources\\LireFichier.txt");
             // Créer l'objet File Reader
             FileReader fr = new FileReader(file);
             // Créer l'objet BufferedReader
