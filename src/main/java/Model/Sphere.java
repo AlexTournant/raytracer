@@ -2,8 +2,8 @@ package Model;
 
 public class Sphere {
 
-    Triplet origine;
-    double rayon;
+    private Triplet origine;
+    private double rayon;
 
     public Sphere(Triplet origine, double rayon) {
         this.origine = origine;
