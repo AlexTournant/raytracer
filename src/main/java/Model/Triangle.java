@@ -36,14 +36,20 @@ public class Triangle {
     }
 
     public double getDistanceAB() {
-        return Math.sqrt(Math.pow(((getB().getX() - getA().getX())), 2) + Math.pow(((getB().getY() - getA().getY())), 2) + Math.pow(((getB().getZ() - getA().getZ())), 2));
+        return Math.sqrt(   Math.pow(((getB().getX() - getA().getX())), 2) +
+                            Math.pow(((getB().getY() - getA().getY())), 2) +
+                            Math.pow(((getB().getZ() - getA().getZ())), 2));
     }
 
     public double getDistanceAC() {
-        return Math.sqrt(Math.pow(((getC().getX() - getA().getX())), 2) + Math.pow(((getC().getY() - getA().getY())), 2) + Math.pow(((getC().getZ() - getA().getZ())), 2));
+        return Math.sqrt(   Math.pow(((getC().getX() - getA().getX())), 2) +
+                            Math.pow(((getC().getY() - getA().getY())), 2) +
+                            Math.pow(((getC().getZ() - getA().getZ())), 2));
     }
 
     public double getDistanceBC() {
-        return Math.sqrt(Math.pow(((getC().getX() - getB().getX())), 2) + Math.pow(((getC().getY() - getB().getY())), 2) + Math.pow(((getC().getZ() - getB().getZ())), 2));
+        return Math.sqrt(   Math.pow(((getC().getX() - getB().getX())), 2) +
+                            Math.pow(((getC().getY() - getB().getY())), 2) +
+                            Math.pow(((getC().getZ() - getB().getZ())), 2));
     }
 }
