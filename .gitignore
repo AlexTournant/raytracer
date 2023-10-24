@@ -10,6 +10,7 @@ build/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/.name
 *.iws
 *.iml
 *.ipr
@@ -102,4 +103,4 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
-.xml
+*.xml
