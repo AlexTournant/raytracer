@@ -1,37 +1,37 @@
 package Model;
 
 public class Image {
-    private int largeurImage;
-    private int hauteurImage;
-    private String nomImage = "output.png";
+    private int ImageWidth;
+    private int ImageHeight;
+    private String ImageName = "output.png";
 
-    public Image(int largeurImage, int hauteurImage, String nomImage) {
-        this.largeurImage = largeurImage;
-        this.hauteurImage = hauteurImage;
-        this.nomImage = nomImage;
+    public Image(int ImageWidth, int ImageHeight, String ImageName) {
+        this.ImageWidth = ImageWidth;
+        this.ImageHeight = ImageHeight;
+        this.ImageName = ImageName;
     }
 
-    public int getLargeurImage() {
-        return largeurImage;
+    public int getImageWidth() {
+        return ImageWidth;
     }
 
-    public void setLargeurImage(int largeurImage) {
-        this.largeurImage = largeurImage;
+    public void setImageWidth(int ImageWidth) {
+        this.ImageWidth = ImageWidth;
     }
 
-    public int getHauteurImage() {
-        return hauteurImage;
+    public int getImageHeight() {
+        return ImageHeight;
     }
 
-    public void setHauteurImage(int hauteurImage) {
-        this.hauteurImage = hauteurImage;
+    public void setImageHeight(int ImageHeight) {
+        this.ImageHeight = ImageHeight;
     }
 
-    public String getNomImage() {
-        return nomImage;
+    public String getImageName() {
+        return ImageName;
     }
 
-    public void setNomImage(String nomImage) {
-        this.nomImage = nomImage;
+    public void setImageName(String ImageName) {
+        this.ImageName = ImageName;
     }
 }

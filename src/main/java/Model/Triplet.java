@@ -50,6 +50,9 @@ public class Triplet {
         return new Triplet(this.x * vec.x, this.y * vec.y, this.z * vec.z);
     }
 
+    public Triplet multiplyVectorial(Triplet vec) { return new Triplet(this.y*vec.z-this.z* vec.y,this.z*vec.x-this.x*vec.z,this.x*vec.y-this.y*vec.x); }
+
+
     public Triplet divide(Triplet vec) {
         return new Triplet(this.x / vec.x, this.y / vec.y, this.z / vec.z);
     }

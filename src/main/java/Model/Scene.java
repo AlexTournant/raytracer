@@ -7,14 +7,14 @@ public class Scene {
 
     private Camera camera;
     private Image image;
-    private ArrayList<Couleur> couleurs;
+    private ArrayList<Color> colors;
     private List<IObjetScene> objets = new ArrayList<IObjetScene>();
 
 
-    public Scene(Camera camera, Image image, ArrayList<Couleur> couleurs, List<IObjetScene> objets) {
+    public Scene(Camera camera, Image image, ArrayList<Color> colors, List<IObjetScene> objets) {
         this.camera = camera;
         this.image = image;
-        this.couleurs = couleurs;
+        this.colors = colors;
         this.objets = objets;
     }
 
@@ -34,12 +34,12 @@ public class Scene {
         this.image = image;
     }
 
-    public ArrayList<Couleur> getCouleurs() {
-        return couleurs.toString();
+    public ArrayList<Color> getcolors() {
+        return this.colors;
     }
 
-    public void setCouleurs(ArrayList<Couleur> couleurs) {
-        this.couleurs = couleurs;
+    public void setcolors(ArrayList<Color> colors) {
+        this.colors = colors;
     }
 
     public List<IObjetScene> getObjets() {

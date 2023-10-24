@@ -2,6 +2,6 @@ package Model;
 
 public interface IObjetScene {
 
-    public Couleur getCouleur();
+    public Color getColor();
 
 }
