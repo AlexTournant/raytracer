@@ -11,12 +11,13 @@ public class Scene {
     private List<IObjetScene> objets = new ArrayList<IObjetScene>();
 
 
-    public Scene(Camera camera, Image image, ArrayList<Color> colors, List<IObjetScene> objets) {
-        this.camera = camera;
-        this.image = image;
-        this.colors = colors;
-        this.objets = objets;
+    public Scene(SceneBuilder b) {
+        this.camera = b.getCamera();
+        this.image = b.getImage();
+        this.colors = b.getColors();
+        this.objets = b.getObjets();
     }
+
 
     public Camera getCamera() {
         return camera;
