@@ -15,9 +15,12 @@ public class Color {
 		return this.triplet;
 	}
 
-	public Color add(Color tri) {
+	public Color add(Color tri) throws Exception{
 		Triplet temp = triplet.add(tri.getTriplet());
-		return new Color(temp);
+		if (temp.getX() > 1 || temp.getY() > 1 || temp.getZ() > 1){
+			throw new Exception("Entree incorrecte");
+		}
+		else return new Color(temp);
 	}
 	
 	public Color multiply(double scalar) {
