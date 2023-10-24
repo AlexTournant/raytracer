@@ -3,7 +3,7 @@ package Model;
 import java.io.*;
 import java.util.*;
 
-class Parser {
+public class Parser {
     private int height;
     private int width;
     private String image;
