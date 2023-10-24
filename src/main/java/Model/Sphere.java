@@ -3,11 +3,11 @@ package Model;
 public class Sphere {
 
     private Triplet origine;
-    private double rayon;
+    private double ray;
 
-    public Sphere(Triplet origine, double rayon) {
+    public Sphere(Triplet origine, double ray) {
         this.origine = origine;
-        this.rayon = rayon;
+        this.ray = ray;
     }
 
     public Triplet getOrigine() {
@@ -18,24 +18,24 @@ public class Sphere {
         this.origine = origine;
     }
 
-    public double getRayon() {
-        return rayon;
+    public double getRay() {
+        return ray;
     }
 
-    public void setRayon(double rayon) {
-        this.rayon = rayon;
+    public void setRay(double ray) {
+        this.ray = ray;
     }
 
-    public double getDiametre() {
-        return this.getRayon() * 2;
+    public double getDiameter() {
+        return this.getRay() * 2;
     }
 
-    public double getCirconference() {
-        return 2 * Math.PI * this.getRayon();
+    public double getCircumference() {
+        return 2 * Math.PI * this.getRay();
     }
 
     public double getVolume() {
-        return (double) 4 / 3 * Math.PI * Math.pow(this.getRayon(), 3);
+        return (double) 4 / 3 * Math.PI * Math.pow(this.getRay(), 3);
     }
 
 }
