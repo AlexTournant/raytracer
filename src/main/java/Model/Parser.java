@@ -3,13 +3,17 @@ package Model;
 import java.io.*;
 import java.util.*;
 
-class Parser {
+public class Parser {
     private int height;
     private int width;
-    private String image;
-    private  ArrayList<Triplet> camera=new ArrayList<>();
+    private String nomImage;
+    private  ArrayList<Triplet> TCamera=new ArrayList<>();
+
+    private ArrayList<Camera> cameras=new ArrayList<>();
     private int fov;
     private ArrayList<Color> colors=new ArrayList<>();
+
+    private ArrayList<Image> image=new ArrayList<>();
     private DirectionalLight dl;
     private PonctualLight pl;
     private int maxvert;
@@ -35,12 +39,16 @@ class Parser {
         this.width = width;
     }
 
-    public ArrayList<Triplet> getCamera() {
-        return camera;
+    public ArrayList<Triplet> getTCamera() {
+        return TCamera;
     }
 
-    public void setCamera(ArrayList<Triplet> camera) {
-        this.camera = camera;
+    public ArrayList<Image> getImage() {
+        return image;
+    }
+
+    public void setImage(ArrayList<Image> image) {
+        this.image = image;
     }
 
     public int getFov() {
@@ -103,14 +111,41 @@ class Parser {
         return plans;
     }
 
-    public String getImage() {
-        return image;
+    public String getNomImage() {
+        return nomImage;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setNomImage(String nomImage) {
+        this.nomImage = nomImage;
     }
 
+    public void setTCamera(ArrayList<Triplet> TCamera) {
+        this.TCamera = TCamera;
+    }
+
+    public ArrayList<Camera> getCameras() {
+        return cameras;
+    }
+
+    public void setCameras(ArrayList<Camera> cameras) {
+        this.cameras = cameras;
+    }
+
+    public void setPoints(Point[] points) {
+        this.points = points;
+    }
+
+    public void setTriangles(ArrayList<Triangle> triangles) {
+        this.triangles = triangles;
+    }
+
+    public void setSpheres(ArrayList<Sphere> spheres) {
+        this.spheres = spheres;
+    }
+
+    public void setPlans(ArrayList<Plan> plans) {
+        this.plans = plans;
+    }
 
     public void parse(String nomFile) throws java.io.IOException {
         try {
@@ -157,17 +192,16 @@ class Parser {
                 }
             }
             for (String key:tableauAssociatif.keySet()){
-                System.out.println(key);
                 switch (key) {
                     case "size" -> {
-                        setHeight(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()));
-                        setWidth(Integer.parseInt(tableauAssociatif.get(key).get(0).get(1).toString()));
+                        setWidth(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()));
+                        setHeight(Integer.parseInt(tableauAssociatif.get(key).get(0).get(1).toString()));
                     }
-                    case "output" -> setImage((String) tableauAssociatif.get(key).get(0).get(0));
+                    case "output" -> setNomImage((String) tableauAssociatif.get(key).get(0).get(0));
                     case "camera" -> {
-                        getCamera().add(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
-                        getCamera().add(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(3).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(4).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(5).toString())));
-                        getCamera().add(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(6).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(7).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(7).toString())));
+                        getTCamera().add(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
+                        getTCamera().add(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(3).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(4).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(5).toString())));
+                        getTCamera().add(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(6).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(7).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(7).toString())));
                         setFov(Integer.parseInt(tableauAssociatif.get(key).get(0).get(9).toString()));
                     }
                     case "ambient" ->
@@ -191,7 +225,6 @@ class Parser {
                     }
                     case "tri" -> {
                         for (int i = 0; i <tableauAssociatif.get(key).size(); i++) {
-                            System.out.println(Integer.parseInt(tableauAssociatif.get(key).get(i).get(0).toString()));
                             getTriangles().add(new Triangle(getPoints()[Integer.parseInt(tableauAssociatif.get(key).get(i).get(0).toString())], getPoints()[Integer.parseInt(tableauAssociatif.get(key).get(i).get(1).toString())], getPoints()[Integer.parseInt(tableauAssociatif.get(key).get(i).get(2).toString())]));
                         }
                     }
@@ -200,32 +233,22 @@ class Parser {
                     case "plane" -> getPlans().add(new Plan());
                 }
             }
-        } catch (Exception e){
+        } catch (FileNotFoundException e){
             e.printStackTrace();
+            System.out.println("erreur");
+
         }
     }
-
-    @Override
-    public String toString() {
-        return "Parser{" +
-                "height=" + getHeight() +
-                ", width=" + getWidth() +
-                ", image='" + getImage() + '\'' +
-                ", camera=" + getCamera() +
-                ", fov=" + getFov() +
-                ", colors=" + getColors() +
-                ", dl=" + getDl() +
-                ", pl=" + getPl() +
-                ", triangles=" + getTriangles() +
-                ", spheres=" + getSpheres() +
-                ", plans=" + getPlans() +
-                getMaxvert()+
-                '}';
+    public void addImage(){
+        getImage().add(new Image(getWidth(),getHeight(),getNomImage()));
     }
 
-    public static void main(String[] arg) throws java.io.IOException {
-        Parser p=new Parser();
-        p.parse("parser.txt");
-        System.out.println(p);
+    public void addCamera() {
+        if(getTCamera().size()>2){
+            getCameras().add(new Camera(getTCamera().get(0),getTCamera().get(1),getTCamera().get(2),getFov()));
+            for(int i=0;i<4;i++) {
+                getTCamera().remove(0);
+            }
+        }
     }
 }
