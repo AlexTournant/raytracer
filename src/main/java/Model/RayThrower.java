@@ -26,7 +26,7 @@ public class RayThrower {
         return imgheight;
     }
 
-    public Scene getScene() {
+    public static Scene getScene() {
         return scene;
     }
 
@@ -63,6 +63,41 @@ public class RayThrower {
         return v;
     }
 
+
+    public double getFovr() {
+        return (this.scene.getCamera().getFov() * Math.PI) / 180;
+    }
+
+    public double getRealHeight() {
+        return 2 * Math.tan(getFovr() / 2);
+    }
+
+    public double getPixelHeight() {
+        return getRealHeight() / this.imgheight;
+    }
+
+    public double getRealWidth() {
+        return this.imgwidth * this.getPixelHeight();
+    }
+
+    public double getPixelWidth() {
+        return getRealWidth() / this.imgwidth;
+    }
+
+    public Vector getD(int i, int j) {
+        double a = -getRealWidth() / 2 + (i + 0.5) * getPixelWidth();
+        double b = getRealHeight() / 2 - (j + 0.5) * getPixelHeight();
+        Vector u = orthonormalU();
+        Vector v = orthonormalV();
+        Vector w = orthonormalW();
+        Vector tmp1 = new Vector(u.getTriplet().multiply(a));
+        Vector tmp2 = new Vector(v.getTriplet().multiply(b));
+
+        Vector numerator = tmp1.add(tmp2).subtract(w);
+        Vector denominator = numerator.normalize();
+        return new Vector(numerator.getTriplet().divide(denominator.getTriplet()));
+    }
+
     public BufferedImage getMyImage(){
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
         for (int x=0; x<getImgwidth(); x++){
@@ -84,6 +119,25 @@ public class RayThrower {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
+
+    public void rayTracing() {
+        Scene scene = this.scene;
+        double t = 0;
+        for (int i = 0; i < scene.getImage().getImageWidth();i++) {
+            for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
+                Vector d = getD(i, j);
+                double t = 0;
+                for (IObjetScene objets : scene.getObjets()) {
+                    t = objets.intersection(new Point(scene.getCamera().getLookFrom()), d);
+                    Point p = new Point(scene.getCamera().getLookFrom().add((d.getTriplet().multiply(t))));
+                }
+                if (t != -1.0) {
+
+                }
+
+            }
+        }
+    }
+
 }
