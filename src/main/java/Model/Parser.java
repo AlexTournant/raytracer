@@ -229,8 +229,8 @@ public class Parser {
                         }
                     }
                     case "sphere" ->
-                            getSpheres().add(new Sphere(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), Double.parseDouble(tableauAssociatif.get(key).get(0).get(3).toString())));
-                    case "plane" -> getPlans().add(new Plan());
+                            getSpheres().add(new Sphere(new Point(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(1).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(2).toString())), Double.parseDouble(tableauAssociatif.get(key).get(0).get(3).toString())));
+                    case "plane" -> getPlans().add(new Plan(new Point(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(1).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(2).toString())),new Vector(Integer.parseInt(tableauAssociatif.get(key).get(0).get(3).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(4).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(5).toString()))));
                 }
             }
         } catch (FileNotFoundException e){
