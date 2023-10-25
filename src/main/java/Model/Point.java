@@ -15,12 +15,10 @@ public class Point {
 	}
 
 	public Vector subtract(Point tri) {
-		Triplet temp = this.getTriplet().subtract(tri.getTriplet());
-		return new Vector(temp);
+		return new Vector(getTriplet().subtract(tri.getTriplet()));
 	}
-	
-	public Point multiply(float scalar) {
-		return new Point(triplet.multiply(scalar));
+	public Point scalarMultiply(float scalar) {
+		return new Point(getTriplet().scalarMultiply(scalar));
 	}
 
 	
