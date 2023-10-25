@@ -1,21 +1,21 @@
 package Model;
 
 import javax.imageio.ImageIO;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
+import java.awt.Color;
 
 import static java.lang.Math.abs;
 
 public class RayThrower {
-    private Camera cam;
     private Scene scene;
     private int imgwidth, imgheight;
-    public RayThrower(Scene scene, int x, int y){
+    public RayThrower(Scene scene){
             this.scene = scene;
-            this.cam = scene.getCamera();
-            this.imgwidth = x;
-            this.imgheight = y;
+            this.imgwidth = scene.getImage().getImageWidth();
+            this.imgheight = scene.getImage().getImageHeight();
     }
 
     public int getImgwidth() {
@@ -26,20 +26,16 @@ public class RayThrower {
         return imgheight;
     }
 
-    public Camera getCam() {
-        return cam;
-    }
-
     public Scene getScene() {
         return scene;
     }
 
     public Vector orthonormalW(){
-        Triplet temp = getCam().getLookFrom();
+        Triplet temp = getScene().getCamera().getLookFrom();
 
-        Triplet temp2 = getCam().getLookAt();
+        Triplet temp2 = getScene().getCamera().getLookAt();
 
-        Vector w1 = new Vector(getCam().getLookFrom().subtract(getCam().getLookAt()));
+        Vector w1 = new Vector(getScene().getCamera().getLookFrom().subtract(getScene().getCamera().getLookAt()));
         Vector w2 = new Vector(temp.subtract(temp2));
         Vector w = new Vector((temp.divide(temp2)).normalize());
         return w;
@@ -47,9 +43,9 @@ public class RayThrower {
 
     public Vector orthonormalU(){
         Triplet tmp = orthonormalW().getTriplet();
-        Triplet u1 = getCam().getUp().multiply(tmp);
+        Triplet u1 = getScene().getCamera().getUp().multiply(tmp);
 
-        Triplet upTemp = getCam().getUp();
+        Triplet upTemp = getScene().getCamera().getUp();
 
         Triplet TempW = orthonormalW().getTriplet();
 
@@ -71,7 +67,9 @@ public class RayThrower {
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
         for (int x=0; x<getImgwidth(); x++){
             for (int y=0; y<getImgheight(); y++){
-                image.setRGB(x, y, 0);
+                java.awt.Color color = new java.awt.Color(0, 0, 0);
+                int rgb = color.getRGB();
+                image.setRGB(x, y, rgb);
             }
         }
         return image;
@@ -81,7 +79,7 @@ public class RayThrower {
         try {
             // Retrieve image
             BufferedImage image = getMyImage();
-            File outputfile = new File("output.png");
+            File outputfile = new File(getScene().getImage().getImageName());
             ImageIO.write(image, "png", outputfile);
         } catch (IOException ex) {
             ex.printStackTrace();
