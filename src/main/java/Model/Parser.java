@@ -211,7 +211,7 @@ public class Parser {
                     case "specular" ->
                             getColors().add(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
                     case "shininess" ->
-                            getColors().get(2).multiply(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()));
+                            getColors().get(2).scalarMultiply(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()));
                     case "directional" ->
                             setDl(new DirectionalLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Vector(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString()))));
                     case "point" ->
