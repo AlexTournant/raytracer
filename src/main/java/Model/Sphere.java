@@ -1,20 +1,20 @@
 package Model;
 
-public class Sphere {
+public class Sphere implements IObjetScene {
 
-    private Triplet origine;
+    private Point origine;
     private double ray;
 
-    public Sphere(Triplet origine, double ray) {
+    public Sphere(Point origine, double ray) {
         this.origine = origine;
         this.ray = ray;
     }
 
-    public Triplet getOrigine() {
+    public Point getOrigine() {
         return origine;
     }
 
-    public void setOrigine(Triplet origine) {
+    public void setOrigine(Point origine) {
         this.origine = origine;
     }
 

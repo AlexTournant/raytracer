@@ -1,11 +1,30 @@
 package Model;
 
-public class Plan {
+public class Plan implements IObjetScene {
+    private Point origine;
 
-    private Triplet origine;
+    private Vector normal;
 
-    public Plan() {
-        this.origine = new Triplet(0.0, 0.0, 0.0);
+    public Plan(Point origine,Vector normal) {
+        this.origine=origine;
+        this.normal=normal.normalize();
     }
 
+
+
+    public Point getOrigine() {
+        return origine;
+    }
+
+    public void setOrigine(Point origine) {
+        this.origine = origine;
+    }
+
+    public Vector getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Vector normal) {
+        this.normal = normal;
+    }
 }
