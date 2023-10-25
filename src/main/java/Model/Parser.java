@@ -228,8 +228,11 @@ public class Parser {
                             getTriangles().add(new Triangle(getPoints()[Integer.parseInt(tableauAssociatif.get(key).get(i).get(0).toString())], getPoints()[Integer.parseInt(tableauAssociatif.get(key).get(i).get(1).toString())], getPoints()[Integer.parseInt(tableauAssociatif.get(key).get(i).get(2).toString())]));
                         }
                     }
-                    case "sphere" ->
-                            getSpheres().add(new Sphere(new Point(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(1).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(2).toString())), Double.parseDouble(tableauAssociatif.get(key).get(0).get(3).toString())));
+                    case "sphere" -> {
+                        for (int i = 0; i < tableauAssociatif.get(key).size(); i++) {
+                            getSpheres().add(new Sphere(new Point(Integer.parseInt(tableauAssociatif.get(key).get(i).get(0).toString()), Integer.parseInt(tableauAssociatif.get(key).get(i).get(1).toString()), Integer.parseInt(tableauAssociatif.get(key).get(i).get(2).toString())), Double.parseDouble(tableauAssociatif.get(key).get(i).get(3).toString())));
+                        }
+                    }
                     case "plane" -> getPlans().add(new Plan(new Point(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(1).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(2).toString())),new Vector(Integer.parseInt(tableauAssociatif.get(key).get(0).get(3).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(4).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(5).toString()))));
                 }
             }

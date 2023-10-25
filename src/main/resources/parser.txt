@@ -1,19 +1,16 @@
-size 500 555
-output mascene.png
+#size 640 480
+#camera 0 0 4 0 0 0 0 1 0 45
+#output sphere1.png
+
+#ambient 1 0 0
+
+#sphere 0 0 0 1
+
+size 640 480
 camera 0 0 4 0 0 0 0 1 0 45
-ambient .1 .1 .1
-diffuse 0.9 0 0
-specular 0 0 0
-shininess 10
-directional 0 0 1 .5 .5 .5
-point 4 0 4 .5 .5 .5
-maxverts 4
-vertex -1 -1 0
-vertex -1 -1 0
-vertex -1 -1 0
-vertex -1 -1 0
-tri 0 1 2
-tri 0 1 2
-sphere 0 1 0 0.5
-#
-plane 0 -1 0 0 1 0
+output sphere2.png
+
+ambient 1 0 0
+
+sphere -1 0 0 1
+sphere 1 0 0 1

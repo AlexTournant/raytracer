@@ -89,6 +89,7 @@ public class RayThrower {
         int occ=0;
         for (IObjetScene objet : scene.getObjets()) {
             intersection.setIos(objet);
+            System.out.println(objet.getOrigine().getTriplet().getX());
             for (int i = 0; i < scene.getImage().getImageWidth();i++) {
                 for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
                     Vector d = getD(i, j);
@@ -99,8 +100,8 @@ public class RayThrower {
                         Point p = new Point(scene.getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(t))));
                         Model.Color c = scene.getColors().get(0);
                         rgb = convertModelColorToAwtColor(c.getTriplet().getX(), c.getTriplet().getY(), c.getTriplet().getZ());
+                        image.setRGB(i, j, rgb);
                     }
-                    image.setRGB(i, j, rgb);
                 }
             }
         }
