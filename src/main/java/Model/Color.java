@@ -16,19 +16,19 @@ public class Color {
 	}
 
 	public Color add(Color tri) throws Exception{
-		Triplet temp = triplet.add(tri.getTriplet());
+		Triplet temp = getTriplet().add(tri.getTriplet());
 		if (temp.getX() > 1 || temp.getY() > 1 || temp.getZ() > 1){
 			throw new Exception("Entree incorrecte");
 		}
 		else return new Color(temp);
 	}
 	
-	public Color multiply(double scalar) {
-		return new Color(triplet.multiply(scalar));
+	public Color scalarMultiply(double scalar) {
+		return new Color(getTriplet().scalarMultiply(scalar));
 	}
 	
-	public Color multiply(Color vec) {
-		return new Color(triplet.multiply(vec.getTriplet()));
+	public Color shurProduct(Color vec) {
+		return new Color(getTriplet().shurProduct(vec.getTriplet()));
 	}
 	
 }
