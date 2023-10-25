@@ -22,43 +22,29 @@ public class Triplet {
         return z;
     }
 
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
-    }
-
     public Triplet add(Triplet vec) {
-        return new Triplet(this.x + vec.x, this.y + vec.y, this.z + vec.z);
+        return new Triplet(getX() + vec.getX(), getY() + vec.getY(), getZ() + vec.getZ());
     }
 
     public Triplet subtract(Triplet vec) {
-        return new Triplet(this.x - vec.x, this.y - vec.y, this.z - vec.z);
+        return new Triplet(getX() - vec.getX(), getY() - vec.getY(), getZ() - vec.getZ());
     }
 
-    public Triplet multiply(double scalar) {
-        return new Triplet(this.x * scalar, this.y * scalar, this.z * scalar);
+    public Triplet scalarMultiply(double scalar){
+            return new Triplet(getX() * scalar, getY() * scalar, getZ() * scalar);
     }
-
-    public Triplet multiply(Triplet vec) {
-        return new Triplet(this.x * vec.x, this.y * vec.y, this.z * vec.z);
-    }
-
     public double scalarProduct(Triplet vec) {
-            return this.x * vec.x + this.y * vec.y + this.z * vec.z;
+        return getX() * vec.getX()+ getY() * vec.getY()+ getZ() * vec.getZ();
     }
 
-    public Triplet multiplyVectorial(Triplet vec) { return new Triplet(this.y*vec.z-this.z* vec.y,this.z*vec.x-this.x*vec.z,this.x*vec.y-this.y*vec.x); }
+    public Triplet multiplyVectorial(Triplet vec) { return new Triplet(getY()*vec.getZ()-getZ()* vec.getY(),getZ()*vec.getX()-getX()*vec.getZ(),getX()*vec.getY()-getY()*vec.getX()); }
 
+    public Triplet shurProduct(Triplet vec){
+            return new Triplet(getX()*vec.getX(),getY()*vec.getY(),getZ()*vec.getZ());
+    }
 
     public Triplet divide(Triplet vec) {
-        return new Triplet(this.x / vec.x, this.y / vec.y, this.z / vec.z);
+        return new Triplet(getX() / vec.getX(), getY() / vec.getY(), getZ() / vec.getZ());
     }
 
     public double length() {
@@ -67,7 +53,7 @@ public class Triplet {
 
     public Triplet normalize() {
         double length = length();
-        return new Triplet(this.x / length, this.y / length, this.z / length);
+        return new Triplet(getX() / length, getY() / length, getZ() / length);
     }
 
 }
