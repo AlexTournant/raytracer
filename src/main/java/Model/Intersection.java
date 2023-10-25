@@ -6,7 +6,7 @@ public class Intersection {
 
     public double intersection(Point lookFrom, Vector d) {
         double a = 1;
-        double b = ((lookFrom.subtract(sphere.getOrigine())).multiply(2)).getTriplet().scalarProduct(d.getTriplet());
+        double b = ((lookFrom.subtract(sphere.getOrigine())).scalarMultiply(2)).getTriplet().scalarProduct(d.getTriplet());
         double c = lookFrom.subtract(sphere.getOrigine()).getTriplet().scalarProduct(lookFrom.subtract(sphere.getOrigine()).getTriplet());
 
         double delta = Math.pow(b, 2) - 4 * a * c;
