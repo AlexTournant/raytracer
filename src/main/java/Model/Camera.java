@@ -13,6 +13,35 @@ public class Camera {
         this.fov = fov;
     }
 
+    public Triplet getLookFrom() {
+        return lookFrom;
+    }
 
+    public void setLookFrom(Triplet lookFrom) {
+        this.lookFrom = lookFrom;
+    }
 
+    public Triplet getLookAt() {
+        return lookAt;
+    }
+
+    public void setLookAt(Triplet lookAt) {
+        this.lookAt = lookAt;
+    }
+
+    public Triplet getUp() {
+        return up;
+    }
+
+    public void setUp(Triplet up) {
+        this.up = up;
+    }
+
+    public int getFov() {
+        return fov;
+    }
+
+    public void setFov(int fov) {
+        this.fov = fov;
+    }
 }
