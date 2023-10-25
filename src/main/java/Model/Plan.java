@@ -12,9 +12,6 @@ public class Plan implements IObjetScene {
 
 
 
-    public Point getOrigine() {
-        return origine;
-    }
 
     public void setOrigine(Point origine) {
         this.origine = origine;
@@ -26,5 +23,15 @@ public class Plan implements IObjetScene {
 
     public void setNormal(Vector normal) {
         this.normal = normal;
+    }
+
+    @Override
+    public Point getOrigine() {
+        return origine;
+    }
+
+    @Override
+    public double getRayon() {
+        return 0;
     }
 }

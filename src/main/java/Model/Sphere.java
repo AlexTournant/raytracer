@@ -11,14 +11,6 @@ public class Sphere implements IObjetScene {
         this.ray = ray;
     }
 
-    public Point getOrigine() {
-        return origine;
-    }
-
-    public void setOrigine(Point origine) {
-        this.origine = origine;
-    }
-
     public double getRay() {
         return ray;
     }
@@ -47,9 +39,18 @@ public class Sphere implements IObjetScene {
         return (double) 4 / 3 * Math.PI * Math.pow(this.getRay(), 3);
     }
 
-    @Override
-    public void getObjet() {
 
+    @Override
+    public Point getOrigine() {
+        return origine;
     }
 
+    @Override
+    public double getRayon() {
+        return ray;
+    }
+
+    public void setOrigine(Point p){
+        this.origine=p;
+    }
 }

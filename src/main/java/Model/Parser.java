@@ -246,7 +246,7 @@ public class Parser {
     public void addCamera() {
         if(getTCamera().size()>2){
             getCameras().add(new Camera(getTCamera().get(0),getTCamera().get(1),getTCamera().get(2),getFov()));
-            for(int i=0;i<4;i++) {
+            for(int i=0;i<3;i++) {
                 getTCamera().remove(0);
             }
         }
