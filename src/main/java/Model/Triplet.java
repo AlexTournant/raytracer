@@ -46,7 +46,8 @@ public class Triplet {
         return new Triplet(this.x * scalar, this.y * scalar, this.z * scalar);
     }
 
-    public Triplet multiply(Triplet vec) {
+    public double multiply(Triplet vec){ return this.x * vec.x + this.y * vec.y + this.z * vec.z;}
+    public Triplet schur(Triplet vec) {
         return new Triplet(this.x * vec.x, this.y * vec.y, this.z * vec.z);
     }
 

@@ -31,8 +31,8 @@ public class Vector {
         return new Vector(triplet.multiply(scalar));
     }
 
-    public Vector multiply(Vector vec){
-        return new Vector(triplet.multiply(vec.getTriplet()));
+    public double multiply(Vector vec){
+        return (triplet.multiply(vec.getTriplet()));
     }
 
     public Vector multiplyVectorial(Vector vec){

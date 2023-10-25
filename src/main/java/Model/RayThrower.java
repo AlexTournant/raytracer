@@ -43,22 +43,22 @@ public class RayThrower {
 
     public Vector orthonormalU(){
         Triplet tmp = orthonormalW().getTriplet();
-        Triplet u1 = getScene().getCamera().getUp().multiply(tmp);
+        Triplet u1 = getScene().getCamera().getUp().multiplyVectorial(tmp);
 
         Triplet upTemp = getScene().getCamera().getUp();
 
         Triplet TempW = orthonormalW().getTriplet();
 
 
-        Triplet u2 = upTemp.multiply(TempW).normalize();
+        Triplet u2 = upTemp.multiplyVectorial(TempW).normalize();
 
         Vector y = new Vector(u1.divide(u2));
         return y;
     }
 
     public Vector orthonormalV(){
-        Vector v1 = orthonormalW().multiply(orthonormalU());
-        Vector v2 = orthonormalW().multiply(orthonormalU()).normalize();
+        Vector v1 = orthonormalW().multiplyVectorial(orthonormalU());
+        Vector v2 = orthonormalW().multiplyVectorial(orthonormalU()).normalize();
         Vector v = new Vector(v1.getTriplet().divide(v2.getTriplet()));
         return v;
     }

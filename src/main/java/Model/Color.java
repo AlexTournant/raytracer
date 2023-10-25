@@ -27,8 +27,8 @@ public class Color {
 		return new Color(triplet.multiply(scalar));
 	}
 	
-	public Color multiply(Color vec) {
-		return new Color(triplet.multiply(vec.getTriplet()));
+	public Color schur(Color vec) {
+		return new Color(triplet.schur(vec.getTriplet()));
 	}
 	
 }
