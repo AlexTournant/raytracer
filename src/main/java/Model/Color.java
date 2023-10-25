@@ -5,7 +5,7 @@ package Model;
  */
 public class Color {
 	//Initialize the attribute
-	Triplet triplet;
+	private Triplet triplet;
 
 	/**
 	 * Color's constructor wich generate a color object in RGB values
