@@ -3,14 +3,25 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a 3D scene, with camera settings, image dimensions, colors, and objects in the scene
+ */
 public class Scene {
 
+    /**
+     * Initialize attributes
+     */
     private Camera camera;
     private Image image;
     private ArrayList<Color> colors;
     private List<IObjetScene> objets = new ArrayList<IObjetScene>();
 
 
+    /**
+     * Constructs a Scene using a SceneBuilder to set its properties
+     *
+     * @param b The SceneBuilder containing the scene's configuration
+     */
     public Scene(SceneBuilder b) {
         this.camera = b.getCamera();
         this.image = b.getImage();
@@ -19,35 +30,4 @@ public class Scene {
     }
 
 
-    public Camera getCamera() {
-        return camera;
-    }
-
-    public void setCamera(Camera camera) {
-        this.camera = camera;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public ArrayList<Color> getcolors() {
-        return this.colors;
-    }
-
-    public void setcolors(ArrayList<Color> colors) {
-        this.colors = colors;
-    }
-
-    public List<IObjetScene> getObjets() {
-        return objets;
-    }
-
-    public void setObjets(List<IObjetScene> objets) {
-        this.objets = objets;
-    }
 }

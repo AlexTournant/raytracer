@@ -3,7 +3,14 @@ package Model;
 import java.io.*;
 import java.util.*;
 
-class Parser {
+/**
+ * The Parser class is responsible for parsing a file and storing its contents
+ * It extracts information like the image dimensions, camera settings, lights, objects, and more from the file
+ */
+public class Parser {
+    /**
+     * Initialize attributes
+     */
     private int height;
     private int width;
     private String image;
@@ -19,99 +26,220 @@ class Parser {
     private ArrayList<Sphere> spheres=new ArrayList<>();
     private ArrayList<Plan> plans=new ArrayList<>();
 
+    /**
+     * Get the height of the image
+     *
+     * @return The height of the image
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Set the height of the image
+     *
+     * @param height The new height of the image
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * Get the width of the image
+     *
+     * @return The width of the image
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Set the width of the image
+     *
+     * @param width The new width of the image
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Get the list of camera parameters
+     *
+     * @return The list of camera parameters
+     */
     public ArrayList<Triplet> getCamera() {
         return camera;
     }
 
+    /**
+     * Set the list of camera parameters
+     *
+     * @param camera The new list of camera parameters
+     */
     public void setCamera(ArrayList<Triplet> camera) {
         this.camera = camera;
     }
 
+    /**
+     * Get the camera's field of view
+     *
+     * @return The camera's Field of view
+     */
     public int getFov() {
         return fov;
     }
 
+    /**
+     * Set the camera's field of view
+     *
+     * @param fov The new Field of view of the camera.
+     */
     public void setFov(int fov) {
         this.fov = fov;
     }
 
+    /**
+     * Get the list of color values
+     *
+     * @return The list of color values
+     */
     public ArrayList<Color> getColors() {
         return colors;
     }
 
+    /**
+     * Set the list of color values
+     *
+     * @param colors The new list of color values
+     */
     public void setColors(ArrayList<Color> colors) {
         this.colors = colors;
     }
 
+    /**
+     * Get the directional light source
+     *
+     * @return The directional light source
+     */
     public DirectionalLight getDl() {
         return dl;
     }
 
+    /**
+     * Set the directional light source
+     *
+     * @param dl The new directional light source
+     */
     public void setDl(DirectionalLight dl) {
         this.dl = dl;
     }
 
+    /**
+     * Get the point light source
+     *
+     * @return The point light source
+     */
     public PonctualLight getPl() {
         return pl;
     }
 
+    /**
+     * Set the point light source
+     *
+     * @param pl The new point light source
+     */
     public void setPl(PonctualLight pl) {
         this.pl = pl;
     }
 
+    /**
+     * Get the maximum number of vertex
+     *
+     * @return The maximum number of vertex
+     */
     public int getMaxvert() {
         return maxvert;
     }
 
+    /**
+     * Set the maximum number of vertex
+     *
+     * @param m The new maximum number of vertex
+     */
     public void setMaxvert(int m) {
         maxvert = m;
     }
 
+    /**
+     * Set the array to store Points
+     *
+     * @param column The number of Points to store in the array.
+     */
     public void setPoints(int column) {
         points=new Point[column];
     }
 
+    /**
+     * Get the array of Points
+     *
+     * @return The array of Points
+     */
     public Point[] getPoints(){
         return points;
     }
 
+    /**
+     * Get the list of triangles
+     *
+     * @return The list of triangles
+     */
     public ArrayList<Triangle> getTriangles() {
         return triangles;
     }
 
+    /**
+     * Get the list of spheres
+     *
+     * @return The list of spheres
+     */
     public ArrayList<Sphere> getSpheres() {
         return spheres;
     }
 
+    /**
+     * Get the list of planes
+     *
+     * @return The list of planes
+     */
     public ArrayList<Plan> getPlans() {
         return plans;
     }
 
+    /**
+     * Get the name of the output image
+     *
+     * @return The name of the output image
+     */
     public String getImage() {
         return image;
     }
 
+    /**
+     * Set the name of the output image
+     *
+     * @param image The new name of the output image
+     */
     public void setImage(String image) {
         this.image = image;
     }
 
 
+    /**
+     * Parses the configuration file to extract and store the scene parameters and objects.
+     *
+     * @param nomFile The name of the input configuration file.
+     * @throws java.io.IOException if an IO exception occurs during file reading.
+     */
     public void parse(String nomFile) throws java.io.IOException {
         try {
             // Le fichier d'entrée
@@ -203,29 +331,5 @@ class Parser {
         } catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Parser{" +
-                "height=" + getHeight() +
-                ", width=" + getWidth() +
-                ", image='" + getImage() + '\'' +
-                ", camera=" + getCamera() +
-                ", fov=" + getFov() +
-                ", colors=" + getColors() +
-                ", dl=" + getDl() +
-                ", pl=" + getPl() +
-                ", triangles=" + getTriangles() +
-                ", spheres=" + getSpheres() +
-                ", plans=" + getPlans() +
-                getMaxvert()+
-                '}';
-    }
-
-    public static void main(String[] arg) throws java.io.IOException {
-        Parser p=new Parser();
-        p.parse("parser.txt");
-        System.out.println(p);
     }
 }
