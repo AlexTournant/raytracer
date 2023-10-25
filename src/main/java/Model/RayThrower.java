@@ -26,7 +26,7 @@ public class RayThrower {
         return imgheight;
     }
 
-    public static Scene getScene() {
+    public Scene getScene() {
         return scene;
     }
 
@@ -98,46 +98,43 @@ public class RayThrower {
         return new Vector(numerator.getTriplet().divide(denominator.getTriplet()));
     }
 
-    public BufferedImage getMyImage(){
-        BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
-        for (int x=0; x<getImgwidth(); x++){
-            for (int y=0; y<getImgheight(); y++){
-                java.awt.Color color = new java.awt.Color(0, 0, 0);
-                int rgb = color.getRGB();
-                image.setRGB(x, y, rgb);
-            }
-        }
-        return image;
-    }
-
-    public void SaveImage() throws Exception{
-        try {
-            // Retrieve image
-            BufferedImage image = getMyImage();
-            File outputfile = new File(getScene().getImage().getImageName());
-            ImageIO.write(image, "png", outputfile);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     public void rayTracing() {
         Scene scene = this.scene;
+        Intersection intersection = new Intersection();
+        BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
         double t = 0;
         for (int i = 0; i < scene.getImage().getImageWidth();i++) {
             for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
                 Vector d = getD(i, j);
-                double t = 0;
-                for (IObjetScene objets : scene.getObjets()) {
-                    t = objets.intersection(new Point(scene.getCamera().getLookFrom()), d);
-                    Point p = new Point(scene.getCamera().getLookFrom().add((d.getTriplet().multiply(t))));
+                for (IObjetScene objet : scene.getObjets()) {
+                    t = intersection.intersection(new Point(scene.getCamera().getLookFrom()), d);
+                    java.awt.Color color = new java.awt.Color(0, 0, 0);
+                    int rgb = color.getRGB();
+                    if (t != -1.0) {
+                        Point p = new Point(scene.getCamera().getLookFrom().add((d.getTriplet().multiply(t))));
+                        rgb = 0;
+                        if (objet instanceof Sphere) {
+                            Model.Color c = ((Sphere) objet).getColor();
+                            rgb = convertModelColorToAwtColor(c.getTriplet().getX(), c.getTriplet().getY(), c.getTriplet().getZ());
+                        }
+                    }
+                    image.setRGB(i, j, rgb);
                 }
-                if (t != -1.0) {
-
-                }
-
             }
         }
+        try {
+            ImageIO.write(image, "png", new File(scene.getImage().getImageName()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int convertModelColorToAwtColor(double r, double g, double b) {
+        int red = (int) (r * 255);
+        int green = (int) (g * 255);
+        int blue = (int) (b * 255);
+
+        return new java.awt.Color(red, green, blue).getRGB();
     }
 
 }
