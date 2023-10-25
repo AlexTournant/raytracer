@@ -8,7 +8,7 @@ public class Vector {
     /**
      * Initialize attribute
      */
-    Triplet triplet;
+    private Triplet triplet;
 
     /**
      * Constructs a Vector object with the specified x, y, and z coordinates

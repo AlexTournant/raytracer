@@ -8,7 +8,7 @@ public class Point {
 	/**
 	 * Initialize attribute
 	 */
-	Triplet triplet;
+	 private Triplet triplet;
 
 	/**
 	 * Constructs a Point using coordinates

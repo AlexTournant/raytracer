@@ -108,6 +108,6 @@ public class Triangle {
     public double getDistanceBC() {
         return Math.sqrt(   Math.pow(((getC().getTriplet().getX() - getB().getTriplet().getX())), 2) +
                             Math.pow(((getC().getTriplet().getY() - getB().getTriplet().getY())), 2) +
-                            Math.pow(((getC().getTriplet().getZ() - getB().triplet.getZ())), 2));
+                            Math.pow(((getC().getTriplet().getZ() - getB().getTriplet().getZ())), 2));
     }
 }
