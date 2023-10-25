@@ -43,24 +43,21 @@ public class RayThrower {
 
     public Vector orthonormalU(){
         Triplet tmp = orthonormalW().getTriplet();
-        Triplet u1 = getScene().getCamera().getUp().multiply(tmp);
+        Triplet u1 = getScene().getCamera().getUp().multiplyVectorial(tmp);
 
         Triplet upTemp = getScene().getCamera().getUp();
 
         Triplet TempW = orthonormalW().getTriplet();
 
 
-        Triplet u2 = upTemp.multiply(TempW).normalize();
-
-        Vector y = new Vector(u1.divide(u2));
-        return y;
+        Triplet u2 = upTemp.multiplyVectorial(TempW).normalize();
+        return new Vector(u1.divide(u2));
     }
 
     public Vector orthonormalV(){
-        Vector v1 = orthonormalW().multiply(orthonormalU());
-        Vector v2 = orthonormalW().multiply(orthonormalU()).normalize();
-        Vector v = new Vector(v1.getTriplet().divide(v2.getTriplet()));
-        return v;
+        Vector v1 = orthonormalW().multiplyVectorial(orthonormalU());
+        Vector v2 = orthonormalW().multiplyVectorial(orthonormalU()).normalize();
+        return new Vector(v1.getTriplet().divide(v2.getTriplet()));
     }
 
 
@@ -90,8 +87,8 @@ public class RayThrower {
         Vector u = orthonormalU();
         Vector v = orthonormalV();
         Vector w = orthonormalW();
-        Vector tmp1 = new Vector(u.getTriplet().multiply(a));
-        Vector tmp2 = new Vector(v.getTriplet().multiply(b));
+        Vector tmp1 = new Vector(u.getTriplet().scalarMultiply(a));
+        Vector tmp2 = new Vector(v.getTriplet().scalarMultiply(b));
 
         Vector numerator = tmp1.add(tmp2).subtract(w);
         Vector denominator = numerator.normalize();
@@ -111,7 +108,7 @@ public class RayThrower {
                     java.awt.Color color = new java.awt.Color(0, 0, 0);
                     int rgb = color.getRGB();
                     if (t != -1.0) {
-                        Point p = new Point(scene.getCamera().getLookFrom().add((d.getTriplet().multiply(t))));
+                        Point p = new Point(scene.getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(t))));
                         rgb = 0;
                         if (objet instanceof Sphere) {
                             Model.Color c = ((Sphere) objet).getColor();
