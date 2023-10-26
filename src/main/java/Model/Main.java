@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         //String fileName = args[0];
         ArrayList<String> files=new ArrayList<>();
         files.add("mickey.txt");
+        files.add("2SphereDiff.txt");
+        files.add("2Sphere.txt");
         //p.parse(fileName);
         for (String file:files){
             Parser p=new Parser();
