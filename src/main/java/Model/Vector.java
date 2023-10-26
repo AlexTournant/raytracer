@@ -16,35 +16,33 @@ public class Vector {
     }
 
     public Vector add(Vector tri) {
-        return new Vector(triplet.add(tri.getTriplet()));
+        return new Vector(getTriplet().add(tri.getTriplet()));
     }
 
     public Point add(Point tri) {
-        return new Point(triplet.add(tri.getTriplet()));
+        return new Point(getTriplet().add(tri.getTriplet()));
     }
 
     public Vector subtract(Vector tri) {
-        return new Vector(triplet.subtract(tri.getTriplet()));
+        return new Vector(getTriplet().subtract(tri.getTriplet()));
     }
 
-    public Vector multiply(float scalar) {
-        return new Vector(triplet.multiply(scalar));
+    public Vector scalarMultiply(float scalar) {
+        return new Vector(getTriplet().scalarMultiply(scalar));
     }
 
-    public Vector multiply(Vector vec){
-        return new Vector(triplet.multiply(vec.getTriplet()));
-    }
+    public double scalarProduct(Vector vec){return getTriplet().scalarProduct(vec.getTriplet());}
 
     public Vector multiplyVectorial(Vector vec){
-        return new Vector(triplet.multiplyVectorial(vec.getTriplet()));
+        return new Vector(getTriplet().multiplyVectorial(vec.getTriplet()));
     }
 
     public double length(){
-        return this.triplet.length();
+        return this.getTriplet().length();
     }
 
     public Vector normalize(){
-        return new Vector(this.triplet.normalize());
+        return new Vector(this.getTriplet().normalize());
     }
 
 }

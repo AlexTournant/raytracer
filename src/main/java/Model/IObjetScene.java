@@ -1,7 +1,6 @@
 package Model;
 
 public interface IObjetScene {
-
-    public Color getColor();
-
+    Point getOrigine();
+    double getRayon();
 }

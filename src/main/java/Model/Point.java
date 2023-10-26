@@ -2,7 +2,7 @@ package Model;
 
 public class Point {
 	Triplet triplet;
-	public Point(int x, int y, int z) {
+	public Point(double x, double y, double z) {
 		triplet = new Triplet(x, y, z);
 	}
 
@@ -15,12 +15,10 @@ public class Point {
 	}
 
 	public Vector subtract(Point tri) {
-		Triplet temp = this.getTriplet().subtract(tri.getTriplet());
-		return new Vector(temp);
+		return new Vector(getTriplet().subtract(tri.getTriplet()));
 	}
-	
-	public Point multiply(float scalar) {
-		return new Point(triplet.multiply(scalar));
+	public Point scalarMultiply(double scalar) {
+		return new Point(getTriplet().scalarMultiply(scalar));
 	}
 
 	

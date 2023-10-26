@@ -1,21 +1,14 @@
 package Model;
 
-public class Sphere {
+public class Sphere implements IObjetScene {
 
-    private Triplet origine;
+    private Point origine;
     private double ray;
+    private Color color;
 
-    public Sphere(Triplet origine, double ray) {
+    public Sphere(Point origine, double ray) {
         this.origine = origine;
         this.ray = ray;
-    }
-
-    public Triplet getOrigine() {
-        return origine;
-    }
-
-    public void setOrigine(Triplet origine) {
-        this.origine = origine;
     }
 
     public double getRay() {
@@ -24,6 +17,14 @@ public class Sphere {
 
     public void setRay(double ray) {
         this.ray = ray;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public double getDiameter() {
@@ -38,4 +39,18 @@ public class Sphere {
         return (double) 4 / 3 * Math.PI * Math.pow(this.getRay(), 3);
     }
 
+
+    @Override
+    public Point getOrigine() {
+        return origine;
+    }
+
+    @Override
+    public double getRayon() {
+        return ray;
+    }
+
+    public void setOrigine(Point p){
+        this.origine=p;
+    }
 }
