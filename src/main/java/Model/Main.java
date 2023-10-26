@@ -9,7 +9,6 @@ public class Main {
         //String fileName = args[0];
         ArrayList<String> files=new ArrayList<>();
         files.add("mickey.txt");
-        files.add("2SphereDiff.txt");
         files.add("2Sphere.txt");
         //p.parse(fileName);
         for (String file:files){
