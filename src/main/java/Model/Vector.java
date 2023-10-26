@@ -27,7 +27,7 @@ public class Vector {
         return new Vector(getTriplet().subtract(tri.getTriplet()));
     }
 
-    public Vector scalarMultiply(float scalar) {
+    public Vector scalarMultiply(double scalar) {
         return new Vector(getTriplet().scalarMultiply(scalar));
     }
 

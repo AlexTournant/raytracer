@@ -10,9 +10,6 @@ public class Plan implements IObjetScene {
         this.normal=normal.normalize();
     }
 
-
-
-
     public void setOrigine(Point origine) {
         this.origine = origine;
     }
@@ -34,4 +31,14 @@ public class Plan implements IObjetScene {
     public double getRayon() {
         return 0;
     }
+
+    public Point intersection(Point lookFrom, Point q, Vector n, Vector d) {
+        double t = 0;
+        if (d.scalarProduct(n) != 0) {
+            t = ((q.subtract(lookFrom)).scalarProduct(n)) / d.scalarProduct(n);
+            return new Point(d.scalarMultiply(t).add(lookFrom).getTriplet());
+        }
+        return null;
+    }
+
 }
