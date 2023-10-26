@@ -32,13 +32,13 @@ public class Plan implements IObjetScene {
         return 0;
     }
 
-    public Point intersection(Point lookFrom, Point q, Vector n, Vector d) {
+    public double intersection(Point lookFrom, Point q, Vector n, Vector d) {
         double t = 0;
         if (d.scalarProduct(n) != 0) {
             t = ((q.subtract(lookFrom)).scalarProduct(n)) / d.scalarProduct(n);
-            return new Point(d.scalarMultiply(t).add(lookFrom).getTriplet());
+            return new Point(d.scalarMultiply(t).add(lookFrom).getTriplet()).getTriplet().length();
         }
-        return null;
+        return -1;
     }
 
 }
