@@ -17,10 +17,16 @@ public class Color {
 
 	public Color add(Color tri) throws Exception{
 		Triplet temp = getTriplet().add(tri.getTriplet());
-		if (temp.getX() > 1 || temp.getY() > 1 || temp.getZ() > 1){
-			throw new Exception("Entree incorrecte");
+		if (temp.getX() > 1 ){
+			temp.setX(1);
 		}
-		else return new Color(temp);
+		if (temp.getY() > 1 ){
+			temp.setY(1);
+		}
+		if (temp.getZ() > 1 ){
+			temp.setZ(1);
+		}
+		return new Color(temp);
 	}
 	
 	public Color scalarMultiply(double scalar) {

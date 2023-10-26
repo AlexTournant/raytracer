@@ -11,11 +11,11 @@ public class Parser {
 
     private ArrayList<Camera> cameras=new ArrayList<>();
     private int fov;
-    private ArrayList<Color> colors=new ArrayList<>();
+    private Map<String,Color> colors=new HashMap<>();
 
     private ArrayList<Image> image=new ArrayList<>();
-    private DirectionalLight dl;
-    private PonctualLight pl;
+    private ArrayList<DirectionalLight> dl=new ArrayList<>();
+    private ArrayList<PonctualLight> pl=new ArrayList<>();
     private int maxvert;
     private  Point[] points;
     private ArrayList<Triangle> triangles=new ArrayList<>();
@@ -59,27 +59,27 @@ public class Parser {
         this.fov = fov;
     }
 
-    public ArrayList<Color> getColors() {
+    public Map<String, Color> getColors() {
         return colors;
     }
 
-    public void setColors(ArrayList<Color> colors) {
+    public void setColors(Map<String, Color> colors) {
         this.colors = colors;
     }
 
-    public DirectionalLight getDl() {
+    public ArrayList<DirectionalLight> getDl() {
         return dl;
     }
 
-    public void setDl(DirectionalLight dl) {
+    public void setDl(ArrayList<DirectionalLight> dl) {
         this.dl = dl;
     }
 
-    public PonctualLight getPl() {
+    public ArrayList<PonctualLight> getPl() {
         return pl;
     }
 
-    public void setPl(PonctualLight pl) {
+    public void setPl(ArrayList<PonctualLight> pl) {
         this.pl = pl;
     }
 
@@ -205,17 +205,17 @@ public class Parser {
                         setFov(Integer.parseInt(tableauAssociatif.get(key).get(0).get(9).toString()));
                     }
                     case "ambient" ->
-                            getColors().add(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
+                            getColors().put(key,new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
                     case "diffuse" ->
-                            getColors().add(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
+                            getColors().put(key,new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
                     case "specular" ->
-                            getColors().add(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
+                            getColors().put(key,new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
                     case "shininess" ->
-                            getColors().get(2).scalarMultiply(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()));
+                            getColors().get("specular").scalarMultiply(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()));
                     case "directional" ->
-                            setDl(new DirectionalLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Vector(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString()))));
+                            getDl().add(new DirectionalLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Vector(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString()))));
                     case "point" ->
-                            setPl(new PonctualLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Point(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()),Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString()))));
+                            getPl().add(new PonctualLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Point(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()),Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString()))));
                     case "maxverts" ->
                             setPoints(Integer.parseInt(tableauAssociatif.get("maxverts").get(0).get(0).toString()));
                     case "vertex" -> {
