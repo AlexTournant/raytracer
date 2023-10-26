@@ -81,38 +81,40 @@ public class RayThrower {
         return new Vector(numerator.getTriplet().normalize());
     }
 
-    public void rayTracing() {
+    public void rayTracing()  {
         Scene scene = this.scene;
         Intersection intersection = new Intersection();
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
-        double t ;
-        int occ=0;
+        double t;
+        java.awt.Color color = new java.awt.Color(0, 0, 0);
+        int noir = color.getRGB();
+        for (int i = 0; i < scene.getImage().getImageWidth(); i++) {
+            for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
+                image.setRGB(i, j, noir);
+            }
+        }
         for (IObjetScene objet : scene.getObjets()) {
             intersection.setIos(objet);
-            System.out.println(objet.getOrigine().getTriplet().getX());
-            for (int i = 0; i < scene.getImage().getImageWidth();i++) {
+            for (int i = 0; i < scene.getImage().getImageWidth(); i++) {
                 for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
                     Vector d = getD(i, j);
                     t = intersection.intersection(new Point(scene.getCamera().getLookFrom()), d);
-                    java.awt.Color color = new java.awt.Color(0, 0, 0);
-                    int rgb = color.getRGB();
                     if (t != -1.0) {
                         Point p = new Point(scene.getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(t))));
                         Model.Color c = scene.getColors().get(0);
-                        rgb = convertModelColorToAwtColor(c.getTriplet().getX(), c.getTriplet().getY(), c.getTriplet().getZ());
-                        image.setRGB(i, j, rgb);
+                        int rgb = convertModelColorToAwtColor(c.getTriplet().getX(), c.getTriplet().getY(), c.getTriplet().getZ());
+                        image.setRGB(scene.getImage().getImageWidth()-i,scene.getImage().getImageHeight()-j, rgb);
                     }
                 }
             }
-        }
-        try {
-            ImageIO.write(image, "png", new File(scene.getImage().getImageName()));
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                ImageIO.write(image, "png", new File(scene.getImage().getImageName()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-
-    public static int convertModelColorToAwtColor(double r, double g, double b) {
+    public int convertModelColorToAwtColor(double r, double g, double b) {
         int red = (int) (r * 255);
         int green = (int) (g * 255);
         int blue = (int) (b * 255);

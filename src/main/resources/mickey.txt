@@ -1,0 +1,8 @@
+size 640 480
+camera 0 0 4 0 0 0 0 1 0 45
+output sphere5.png
+
+ambient .5 .5 .5
+sphere 0 0 0 1
+sphere -.7 .7 0 .6
+sphere .7 .7 0 .6

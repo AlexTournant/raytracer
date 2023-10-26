@@ -9,7 +9,7 @@ public class Main {
         //String fileName = args[0];
         Parser p=new Parser();
         //p.parse(fileName);
-        p.parse("parser.txt");
+        p.parse("mickey.txt");
         p.addCamera();
         p.addImage();
         ArrayList<IObjetScene> listObjetScene = new ArrayList<>();

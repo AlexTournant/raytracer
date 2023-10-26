@@ -215,12 +215,12 @@ public class Parser {
                     case "directional" ->
                             setDl(new DirectionalLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Vector(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString()))));
                     case "point" ->
-                            setPl(new PonctualLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Point(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(1).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(2).toString()))));
+                            setPl(new PonctualLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Point(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()),Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString()))));
                     case "maxverts" ->
                             setPoints(Integer.parseInt(tableauAssociatif.get("maxverts").get(0).get(0).toString()));
                     case "vertex" -> {
                         for (int i=0;i < getPoints().length;i++) {
-                            getPoints()[i] = new Point(Integer.parseInt(tableauAssociatif.get(key).get(i).get(0).toString()),Integer.parseInt(tableauAssociatif.get(key).get(i).get(1).toString()), Integer.parseInt(tableauAssociatif.get(key).get(i).get(2).toString()));
+                            getPoints()[i] = new Point(Double.parseDouble(tableauAssociatif.get(key).get(i).get(0).toString()),Double.parseDouble(tableauAssociatif.get(key).get(i).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(i).get(2).toString()));
                         }
                     }
                     case "tri" -> {
@@ -230,10 +230,10 @@ public class Parser {
                     }
                     case "sphere" -> {
                         for (int i = 0; i < tableauAssociatif.get(key).size(); i++) {
-                            getSpheres().add(new Sphere(new Point(Integer.parseInt(tableauAssociatif.get(key).get(i).get(0).toString()), Integer.parseInt(tableauAssociatif.get(key).get(i).get(1).toString()), Integer.parseInt(tableauAssociatif.get(key).get(i).get(2).toString())), Double.parseDouble(tableauAssociatif.get(key).get(i).get(3).toString())));
+                            getSpheres().add(new Sphere(new Point(Double.parseDouble(tableauAssociatif.get(key).get(i).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(i).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(i).get(2).toString())), Double.parseDouble(tableauAssociatif.get(key).get(i).get(3).toString())));
                         }
                     }
-                    case "plane" -> getPlans().add(new Plan(new Point(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(1).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(2).toString())),new Vector(Integer.parseInt(tableauAssociatif.get(key).get(0).get(3).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(4).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(5).toString()))));
+                    case "plane" -> getPlans().add(new Plan(new Point(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())),new Vector(Integer.parseInt(tableauAssociatif.get(key).get(0).get(3).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(4).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(5).toString()))));
                 }
             }
         } catch (FileNotFoundException e){
