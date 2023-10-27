@@ -7,42 +7,7 @@ public class Scene {
     private Image image;
     private ArrayList<Color> colors;
     private ArrayList<IObjetScene> objets = new ArrayList<>();
-    public static class SceneBuilder {
-        private Camera camera=new Camera(null,null,null,0);
-        private Image image=new Image(600,600,"image.png");
-        private ArrayList<Color> colors=new ArrayList<>();
 
-        private ArrayList<IObjetScene> objets = new ArrayList<>();
-
-        public SceneBuilder withCamera(Camera cam) {
-            this.camera = cam;
-            return this;
-        }
-
-        public SceneBuilder withImage(Image img) {
-            this.image = img;
-            return this;
-        }
-
-        public SceneBuilder withColors(ArrayList<Color> colors) {
-            this.colors = colors;
-            return this;
-        }
-
-        public SceneBuilder withObjets(ArrayList<IObjetScene> objets) {
-            this.objets = objets;
-            return this;
-        }
-
-        public Scene build() {
-            Scene sc=new Scene();
-            sc.camera=this.camera;
-            sc.image=this.image;
-            sc.colors=this.colors;
-            sc.objets=this.objets;
-            return sc;
-        }
-    }
 
     public Camera getCamera() {
         return camera;
@@ -58,5 +23,21 @@ public class Scene {
 
     public ArrayList<IObjetScene> getObjets() {
         return objets;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public void setColors(ArrayList<Color> colors) {
+        this.colors = colors;
+    }
+
+    public void setObjets(ArrayList<IObjetScene> objets) {
+        this.objets = objets;
     }
 }

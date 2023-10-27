@@ -5,7 +5,7 @@ public class Triangle implements IObjetScene{
     private Point origine, b, c;
 
     public Triangle(Point a, Point b, Point c) {
-        this.origine = origine;
+        this.origine = a;
         this.b = b;
         this.c = c;
     }
@@ -52,5 +52,20 @@ public class Triangle implements IObjetScene{
     @Override
     public double getRayon() {
         return 0;
+    }
+
+    public double intersection(Point lookFrom, Point q, Vector d) {
+        Vector n = (this.getB().subtract(getOrigine()).multiplyVectorial(this.getC().subtract(this.getOrigine()))).normalize();
+        double t = Plan.intersection(lookFrom, q, n, d);
+        if (t > 0) {
+            if ((getB().subtract(getOrigine())).multiplyVectorial(lookFrom.subtract(getOrigine())).scalarProduct(n) < 0) {
+                return -1;
+            } else if ((getC().subtract(getB())).multiplyVectorial(lookFrom.subtract(getB())).scalarProduct(n) < 0) {
+                return -1;
+            } else if ((getOrigine().subtract(getC())).multiplyVectorial(lookFrom.subtract(getC())).scalarProduct(n) < 0) {
+                return -1;
+            }
+        }
+        return t;
     }
 }
