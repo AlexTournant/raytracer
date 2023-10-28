@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.*;
 
 public class Parser {
+    private int occ=0;
+    private SceneBuilder sb=new SceneBuilder();
     private int height;
     private int width;
     private String nomImage;
@@ -11,17 +13,59 @@ public class Parser {
 
     private ArrayList<Camera> cameras=new ArrayList<>();
     private int fov;
-    private Map<String,Color> colors=new HashMap<>();
+    private Map<String,Color> colors=new LinkedHashMap<>();
 
     private ArrayList<Image> image=new ArrayList<>();
-    private ArrayList<DirectionalLight> dl=new ArrayList<>();
-    private ArrayList<PonctualLight> pl=new ArrayList<>();
     private int maxvert;
     private  Point[] points;
     private ArrayList<Triangle> triangles=new ArrayList<>();
 
     private ArrayList<Sphere> spheres=new ArrayList<>();
     private ArrayList<Plan> plans=new ArrayList<>();
+
+    private Map<IObjetScene,Color> diffuse=new LinkedHashMap<>();
+
+    private ArrayList<ILight> listLights=new ArrayList<>();
+
+    public SceneBuilder getSb() {
+        return sb;
+    }
+
+    public void setSb(SceneBuilder sb) {
+        this.sb = sb;
+    }
+
+    public int getOcc() {
+        return occ;
+    }
+
+    public void setOcc(int occ) {
+        this.occ = occ++;
+    }
+
+    public ArrayList<ILight> getListLights() {
+        return listLights;
+    }
+
+    public void setListLights(ArrayList<ILight> listLights) {
+        this.listLights = listLights;
+    }
+
+    public int getMaxvert() {
+        return maxvert;
+    }
+
+    public void setMaxvert(int maxvert) {
+        this.maxvert = maxvert;
+    }
+
+    public Map<IObjetScene, Color> getDiffuse() {
+        return diffuse;
+    }
+
+    public void setDiffuse(Map<IObjetScene, Color> diffuse) {
+        this.diffuse = diffuse;
+    }
 
     public int getHeight() {
         return height;
@@ -65,30 +109,6 @@ public class Parser {
 
     public void setColors(Map<String, Color> colors) {
         this.colors = colors;
-    }
-
-    public ArrayList<DirectionalLight> getDl() {
-        return dl;
-    }
-
-    public void setDl(ArrayList<DirectionalLight> dl) {
-        this.dl = dl;
-    }
-
-    public ArrayList<PonctualLight> getPl() {
-        return pl;
-    }
-
-    public void setPl(ArrayList<PonctualLight> pl) {
-        this.pl = pl;
-    }
-
-    public int getMaxvert() {
-        return maxvert;
-    }
-
-    public void setMaxvert(int m) {
-        maxvert = m;
     }
 
     public void setPoints(int column) {
@@ -147,6 +167,8 @@ public class Parser {
         this.plans = plans;
     }
 
+
+
     public void parse(String nomFile) throws java.io.IOException {
         try {
             // Le fichier d'entrée
@@ -171,8 +193,6 @@ public class Parser {
             // Split the string into an array of words using space as the delimiter
             String[] words = str.split("\n");
             Map<String, ArrayList<ArrayList<Object>>> tableauAssociatif = new LinkedHashMap<>();
-            // Iterate and print each word in the array
-            ArrayList<ArrayList<Object>> tabs=new ArrayList<>();
             for (String word : words) {
                 String[] a = word.split(" ");
                 ArrayList<Object> tab=new ArrayList<>();
@@ -181,77 +201,73 @@ public class Parser {
                     for (int i = 1; i < a.length; i++) {
                         tab.add(a[i]);
                     }
-                    if (!tableauAssociatif.containsKey(mot)) {
-                        tabs.add(tab);
-                        tableauAssociatif.put(mot, tabs);
-                        tabs=new ArrayList<>();
-                    }
-                    else{
-                        tableauAssociatif.get(mot).add(tab);
+                    switch (mot) {
+                        case "size" -> {
+                            setWidth(Integer.parseInt(tab.get(0).toString()));
+                            setHeight(Integer.parseInt(tab.get(1).toString()));
+                        }
+                        case "output" -> setNomImage((String) tab.get(0));
+                        case "camera" -> {
+                            getTCamera().add(new Triplet(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
+                            getTCamera().add(new Triplet(Double.parseDouble(tab.get(3).toString()), Double.parseDouble(tab.get(4).toString()), Double.parseDouble(tab.get(5).toString())));
+                            getTCamera().add(new Triplet(Double.parseDouble(tab.get(6).toString()), Double.parseDouble(tab.get(7).toString()), Double.parseDouble(tab.get(7).toString())));
+                            setFov(Integer.parseInt(tab.get(9).toString()));
+                        }
+                        case "ambient" ->
+                                getColors().put(mot,new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
+                        case "diffuse" -> {
+                            if (getColors().containsKey(mot)) {
+                                getColors().replace(mot, new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
+                            }
+                            else {
+                                getColors().put(mot, new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
+                            }
+                        }
+                        case "specular" -> {
+                            if(getColors().containsKey(mot)) {
+                                getColors().replace(mot, new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
+                            }
+                            else{
+                                getColors().put(mot, new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
+                            }
+                        }
+                        case "shininess" ->System.out.println("la");
+                        //getColors().get("specular").scalarMultiply(Integer.parseInt(tab.get(0).toString()));
+                        case "directional" ->
+                                getListLights().add(new DirectionalLight(new Color(Double.parseDouble(tab.get(3).toString()), Double.parseDouble(tab.get(4).toString()), Double.parseDouble(tab.get(5).toString())), new Vector(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString()))));
+                        case "point" ->
+                                getListLights().add(new PonctualLight(new Color(Double.parseDouble(tab.get(3).toString()), Double.parseDouble(tab.get(4).toString()), Double.parseDouble(tab.get(5).toString())), new Point(Double.parseDouble(tab.get(0).toString()),Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString()))));
+                        case "maxverts" ->
+                                setPoints(Integer.parseInt(tab.get(0).toString()));
+                        case "vertex" -> {
+                            getPoints()[getOcc()] = new Point(Double.parseDouble(tab.get(0).toString()),Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString()));
+                            setOcc(getOcc());
+                        }
+                        case "tri" ->
+                            diffuse.put(new Triangle(getPoints()[Integer.parseInt(tab.get(0).toString())], getPoints()[Integer.parseInt(tab.get(1).toString())], getPoints()[Integer.parseInt(tab.get(2).toString())]),colors.get("diffuse"));
+                        case "sphere" ->
+                            diffuse.put(new Sphere(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), Double.parseDouble(tab.get(3).toString())),colors.get("diffuse"));
+                        case "plane" ->
+                                diffuse.put(new Plan(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), new Vector(Integer.parseInt(tab.get(3).toString()), Integer.parseInt(tab.get(4).toString()), Integer.parseInt(tab.get(5).toString()))),colors.get("diffuse"));
                     }
                 }
             }
-            for (String key:tableauAssociatif.keySet()){
-                switch (key) {
-                    case "size" -> {
-                        setWidth(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()));
-                        setHeight(Integer.parseInt(tableauAssociatif.get(key).get(0).get(1).toString()));
-                    }
-                    case "output" -> setNomImage((String) tableauAssociatif.get(key).get(0).get(0));
-                    case "camera" -> {
-                        getTCamera().add(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
-                        getTCamera().add(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(3).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(4).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(5).toString())));
-                        getTCamera().add(new Triplet(Double.parseDouble(tableauAssociatif.get(key).get(0).get(6).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(7).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(7).toString())));
-                        setFov(Integer.parseInt(tableauAssociatif.get(key).get(0).get(9).toString()));
-                    }
-                    case "ambient" ->
-                            getColors().put(key,new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
-                    case "diffuse" ->
-                            getColors().put(key,new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
-                    case "specular" ->
-                            getColors().put(key,new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())));
-                    case "shininess" ->
-                            getColors().get("specular").scalarMultiply(Integer.parseInt(tableauAssociatif.get(key).get(0).get(0).toString()));
-                    case "directional" ->
-                            getDl().add(new DirectionalLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Vector(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString()))));
-                    case "point" ->
-                            getPl().add(new PonctualLight(new Color(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())), new Point(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()),Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString()))));
-                    case "maxverts" ->
-                            setPoints(Integer.parseInt(tableauAssociatif.get("maxverts").get(0).get(0).toString()));
-                    case "vertex" -> {
-                        for (int i=0;i < getPoints().length;i++) {
-                            getPoints()[i] = new Point(Double.parseDouble(tableauAssociatif.get(key).get(i).get(0).toString()),Double.parseDouble(tableauAssociatif.get(key).get(i).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(i).get(2).toString()));
-                        }
-                    }
-                    case "tri" -> {
-                        for (int i = 0; i <tableauAssociatif.get(key).size(); i++) {
-                            getTriangles().add(new Triangle(getPoints()[Integer.parseInt(tableauAssociatif.get(key).get(i).get(0).toString())], getPoints()[Integer.parseInt(tableauAssociatif.get(key).get(i).get(1).toString())], getPoints()[Integer.parseInt(tableauAssociatif.get(key).get(i).get(2).toString())]));
-                        }
-                    }
-                    case "sphere" -> {
-                        for (int i = 0; i < tableauAssociatif.get(key).size(); i++) {
-                            getSpheres().add(new Sphere(new Point(Double.parseDouble(tableauAssociatif.get(key).get(i).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(i).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(i).get(2).toString())), Double.parseDouble(tableauAssociatif.get(key).get(i).get(3).toString())));
-                        }
-                    }
-                    case "plane" -> getPlans().add(new Plan(new Point(Double.parseDouble(tableauAssociatif.get(key).get(0).get(0).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(1).toString()), Double.parseDouble(tableauAssociatif.get(key).get(0).get(2).toString())),new Vector(Integer.parseInt(tableauAssociatif.get(key).get(0).get(3).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(4).toString()), Integer.parseInt(tableauAssociatif.get(key).get(0).get(5).toString()))));
-                }
-            }
+            getSb().withLights(getListLights());
+            getSb().withCamera(getCamera());
+            getSb().withColors(getColors());
+            getSb().withImage(new Image(getWidth(),getHeight(),getNomImage()));
+            getSb().withObjets(getDiffuse());
         } catch (FileNotFoundException e){
             e.printStackTrace();
             System.out.println("erreur");
 
         }
     }
-    public void addImage(){
-        getImage().add(new Image(getWidth(),getHeight(),getNomImage()));
-    }
 
-    public void addCamera() {
+    public Camera getCamera() {
         if(getTCamera().size()>2){
-            getCameras().add(new Camera(getTCamera().get(0),getTCamera().get(1),getTCamera().get(2),getFov()));
-            for(int i=0;i<3;i++) {
-                getTCamera().remove(0);
-            }
+            return new Camera(getTCamera().get(0),getTCamera().get(1),getTCamera().get(2),getFov());
         }
+        return null;
     }
 }
