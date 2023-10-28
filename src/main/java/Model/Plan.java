@@ -1,11 +1,11 @@
 package Model;
 
-public class Plan implements IObjetScene {
+public class Plan implements IObjetScene{
     private Point origine;
 
     private Vector normal;
 
-    public Plan(Point origine,Vector normal) {
+    public Plan(Point origine, Vector normal) {
         this.origine=origine;
         this.normal=normal.normalize();
     }
@@ -31,7 +31,6 @@ public class Plan implements IObjetScene {
         double t ;
         if (d.getTriplet().normalize().scalarProduct(this.normal.getTriplet().normalize()) != 0) {
             t = (((getOrigine().subtract(lookFrom)).getTriplet()).scalarProduct(this.normal.getTriplet().normalize())) / d.getTriplet().normalize().scalarProduct(this.normal.getTriplet().normalize());
-            System.out.println(t);
             return t;
         }
         return -1;

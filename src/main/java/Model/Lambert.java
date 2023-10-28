@@ -83,8 +83,13 @@ public class Lambert implements ICalcul{
         return new Vector(numerator.getTriplet().normalize());
     }
 
-    public Model.Color getCol(Point p,IObjetScene objetScene) throws Exception {
-        return new Model.Color((getScene().getColors().get("ambient").add(sumColor(objetScene,p).shurProduct(getScene().getObjets().get(objetScene)))).getTriplet());
+    public Model.Color getCol(Point p,IObjetScene objetScene,int i,int j) throws Exception {
+        if (getScene().getObjets().get(objetScene).getClass()==(ColorUnie.class)) {
+            return new Model.Color((getScene().getColors().get("ambient").add(sumColor(objetScene, p).shurProduct(getScene().getObjets().get(objetScene).getColor(i, j)))).getTriplet());
+        }
+        else{
+            return getScene().getObjets().get(objetScene).getColor(i,j);
+        }
     }
 
     public Model.Color sumColor(IObjetScene objetScene,Point p) throws Exception {
@@ -130,17 +135,17 @@ public class Lambert implements ICalcul{
                 Map<IObjetScene, Double> intersectionObjet = new LinkedHashMap<>();
                 Vector d = getD(i, j);
                 for (IObjetScene objet : this.getScene().getObjets().keySet()) {
+                    System.out.println(objet);
                     if (objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d) != -1.0) {
                         double t = objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d);
                         intersectionObjet.put(objet,t);
                     }
                 }
-                //good
                 Map<IObjetScene,Double> minDistance= plusProche(intersectionObjet);
                 if (minDistance != null){
                     for(IObjetScene objet:minDistance.keySet()) {
                         Point p = new Point(this.getScene().getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(minDistance.get(objet)))));
-                        Model.Color col = getCol(p, objet);
+                        Model.Color col = getCol(p, objet,i,j);
                         int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
                         image.setRGB(this.getScene().getImage().getImageWidth() - i, this.getScene().getImage().getImageHeight() - j, rgb);
                     }

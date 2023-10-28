@@ -7,9 +7,7 @@ public interface Builder {
     void withCamera(Camera cam);
     void withImage(Image img);
     void withLights(ArrayList<ILight> lights);
-    void withObjets(Map<IObjetScene, Color> objets);
+    void withObjets(Map<IObjetScene, IColorStrategy> objets);
     void withColors(Map<String,Color> colors);
-
-    void withStratColor(Map<IColorStrategy,IObjetScene> stratColor);
     Scene build();
 }

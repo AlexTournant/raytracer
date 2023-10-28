@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //String fileName = args[0];
         ArrayList<String> files=new ArrayList<>();
-        files.add("2Sphere.txt");
+        files.add("mystere3.txt");
         //p.parse(fileName);
         for (String file:files){
             Parser p=new Parser();

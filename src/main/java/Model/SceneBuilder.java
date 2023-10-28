@@ -10,11 +10,8 @@ public class SceneBuilder implements Builder{
     private Image image;
     private Map<String, Color> colors;
 
-    private Map<IObjetScene,Color> objets=new LinkedHashMap<>();
-
+    private Map<IObjetScene,IColorStrategy> objets=new LinkedHashMap<>();
     private ArrayList<ILight> lights;
-
-    private Map<IColorStrategy,IObjetScene> stratColor=new LinkedHashMap<>();
 
     @Override
     public void withCamera(Camera cam) {
@@ -30,12 +27,7 @@ public class SceneBuilder implements Builder{
     }
 
     @Override
-    public void withStratColor(Map<IColorStrategy, IObjetScene> stratColor) {
-        this.stratColor=stratColor;
-    }
-
-    @Override
-    public void withObjets(Map<IObjetScene, Color> objets) {
+    public void withObjets(Map<IObjetScene, IColorStrategy> objets) {
         this.objets = objets;
     }
 
@@ -45,6 +37,6 @@ public class SceneBuilder implements Builder{
     }
     @Override
     public Scene build() {
-        return new Scene(this.camera,this.image,this.colors,this.objets,this.lights,this.stratColor);
+        return new Scene(this.camera,this.image,this.colors,this.objets,this.lights);
     }
 }

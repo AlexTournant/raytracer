@@ -11,6 +11,8 @@ public class Parser {
     private boolean shadowOn;
     private int taille;
     private String nomImage;
+
+    private ColorDamier colorDamier ;
     private  ArrayList<Triplet> TCamera=new ArrayList<>();
 
     private ArrayList<Camera> cameras=new ArrayList<>();
@@ -25,12 +27,21 @@ public class Parser {
     private ArrayList<Sphere> spheres=new ArrayList<>();
     private ArrayList<Plan> plans=new ArrayList<>();
 
-    private Map<IObjetScene,Color> diffuse=new LinkedHashMap<>();
+    private Map<IObjetScene,IColorStrategy> diffuse=new LinkedHashMap<>();
 
     private ArrayList<ILight> listLights=new ArrayList<>();
+    private boolean check;
 
     public SceneBuilder getSb() {
         return sb;
+    }
+
+    public ColorDamier getColorDamier() {
+        return colorDamier;
+    }
+
+    public void setColorDamier(ColorDamier colorDamier) {
+        this.colorDamier = colorDamier;
     }
 
     public void setSb(SceneBuilder sb) {
@@ -41,12 +52,20 @@ public class Parser {
         return occ;
     }
 
-    public void setOcc(int occ) {
-        this.occ = occ++;
+    public void setOcc() {
+        this.occ++;
     }
 
     public int getTaille() {
         return taille;
+    }
+
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
     }
 
     public void setTaille(int taille) {
@@ -69,11 +88,11 @@ public class Parser {
         this.maxvert = maxvert;
     }
 
-    public Map<IObjetScene, Color> getDiffuse() {
+    public Map<IObjetScene, IColorStrategy> getDiffuse() {
         return diffuse;
     }
 
-    public void setDiffuse(Map<IObjetScene, Color> diffuse) {
+    public void setDiffuse(Map<IObjetScene, IColorStrategy> diffuse) {
         this.diffuse = diffuse;
     }
 
@@ -221,9 +240,8 @@ public class Parser {
                         case "shadow"->
                             setShadowOn(Boolean.parseBoolean(tab.get(0).toString()));
                         case "checker"-> {
-                            new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(0).toString()));
-                            new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(0).toString()));
-                            setTaille(Integer.parseInt(tab.get(0).toString()));
+                            setCheck(true);
+                            setColorDamier(new ColorDamier(new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), new Color(Double.parseDouble(tab.get(3).toString()), Double.parseDouble(tab.get(4).toString()), Double.parseDouble(tab.get(5).toString())),Integer.parseInt(tab.get(6).toString())));
                         }
                         case "size" -> {
                             setWidth(Integer.parseInt(tab.get(0).toString()));
@@ -264,14 +282,22 @@ public class Parser {
                                 setPoints(Integer.parseInt(tab.get(0).toString()));
                         case "vertex" -> {
                             getPoints()[getOcc()] = new Point(Double.parseDouble(tab.get(0).toString()),Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString()));
-                            setOcc(getOcc());
+                            setOcc();
+                            System.out.println(Arrays.toString(getPoints()));
                         }
                         case "tri" ->
-                            diffuse.put(new Triangle(getPoints()[Integer.parseInt(tab.get(0).toString())], getPoints()[Integer.parseInt(tab.get(1).toString())], getPoints()[Integer.parseInt(tab.get(2).toString())]),colors.get("diffuse"));
+                            diffuse.put( new Triangle(getPoints()[Integer.parseInt(tab.get(0).toString())], getPoints()[Integer.parseInt(tab.get(1).toString())], getPoints()[Integer.parseInt(tab.get(2).toString())]), new ColorUnie(colors.get("diffuse")));
                         case "sphere" ->
-                            diffuse.put(new Sphere(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), Double.parseDouble(tab.get(3).toString())),colors.get("diffuse"));
-                        case "plane" ->
-                                diffuse.put(new Plan(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), new Vector(Integer.parseInt(tab.get(3).toString()), Integer.parseInt(tab.get(4).toString()), Integer.parseInt(tab.get(5).toString()))),colors.get("diffuse"));
+                            diffuse.put(new Sphere(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), Double.parseDouble(tab.get(3).toString())),new ColorUnie(colors.get("diffuse")));
+                        case "plane" -> {
+                            if(isCheck()) {
+                                diffuse.put(new Plan(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), new Vector(Integer.parseInt(tab.get(3).toString()), Integer.parseInt(tab.get(4).toString()), Integer.parseInt(tab.get(5).toString()))),getColorDamier());
+                                setCheck(false);
+                            }
+                            else {
+                                diffuse.put(new Plan(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), new Vector(Integer.parseInt(tab.get(3).toString()), Integer.parseInt(tab.get(4).toString()), Integer.parseInt(tab.get(5).toString()))),new ColorUnie(colors.get("diffuse")));
+                            }
+                        }
                     }
                 }
             }
