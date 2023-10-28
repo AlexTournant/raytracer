@@ -8,6 +8,8 @@ public class Parser {
     private SceneBuilder sb=new SceneBuilder();
     private int height;
     private int width;
+    private boolean shadowOn;
+    private int taille;
     private String nomImage;
     private  ArrayList<Triplet> TCamera=new ArrayList<>();
 
@@ -41,6 +43,14 @@ public class Parser {
 
     public void setOcc(int occ) {
         this.occ = occ++;
+    }
+
+    public int getTaille() {
+        return taille;
+    }
+
+    public void setTaille(int taille) {
+        this.taille = taille;
     }
 
     public ArrayList<ILight> getListLights() {
@@ -167,7 +177,13 @@ public class Parser {
         this.plans = plans;
     }
 
+    public boolean isShadowOn() {
+        return shadowOn;
+    }
 
+    public void setShadowOn(boolean shadowOn) {
+        this.shadowOn = shadowOn;
+    }
 
     public void parse(String nomFile) throws java.io.IOException {
         try {
@@ -202,6 +218,13 @@ public class Parser {
                         tab.add(a[i]);
                     }
                     switch (mot) {
+                        case "shadow"->
+                            setShadowOn(Boolean.parseBoolean(tab.get(0).toString()));
+                        case "checker"-> {
+                            new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(0).toString()));
+                            new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(0).toString()));
+                            setTaille(Integer.parseInt(tab.get(0).toString()));
+                        }
                         case "size" -> {
                             setWidth(Integer.parseInt(tab.get(0).toString()));
                             setHeight(Integer.parseInt(tab.get(1).toString()));
