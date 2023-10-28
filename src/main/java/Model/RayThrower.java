@@ -6,9 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+import java.util.ArrayList;
 
 import static java.lang.Math.abs;
-
 public class RayThrower {
     private Scene scene;
     private int imgwidth, imgheight;
@@ -70,8 +70,10 @@ public class RayThrower {
     }
 
     public Vector getD(int i, int j) {
-        double a = -(getRealWidth() / 2) + (i + 0.5) * getPixelWidth();
-        double b = getRealHeight() / 2 - (j + 0.5) * getPixelHeight();
+        double dx = Math.random();
+        double dy = Math.random();
+        double a = -(getRealWidth() / 2) + (i + dx) * getPixelWidth();
+        double b = getRealHeight() / 2 - (j + dy) * getPixelHeight();
         Vector u = orthonormalU();
         Vector v = orthonormalV();
         Vector w = orthonormalW();
@@ -79,6 +81,13 @@ public class RayThrower {
         Vector tmp2 = new Vector(v.getTriplet().scalarMultiply(b));
         Vector numerator = tmp1.add(tmp2).subtract(w);
         return new Vector(numerator.getTriplet().normalize());
+    }
+
+
+    public Model.Color calculeCouleur(Vector d){
+        Triplet t = d.getTriplet();
+        Model.Color c = new Model.Color(t);
+        return c;
     }
 
     public void rayTracing()  {
@@ -97,7 +106,20 @@ public class RayThrower {
             intersection.setIos(objet);
             for (int i = 0; i < scene.getImage().getImageWidth(); i++) {
                 for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
-                    Vector d = getD(i, j);
+
+                    ArrayList<Vector> D = new ArrayList<Vector>();
+                    Model.Color couleur = new Model.Color(0,0,0);
+                    for (int nbVector = 0; nbVector<10; nbVector++){
+                        D.add(getD(i, j));
+                    }
+                    for (Vector d: D) {
+                        couleur.addSupperior1(calculeCouleur(d));
+                    }
+                    int taille = D.size();
+                    couleur.getTriplet().setX(couleur.getTriplet().getX() / taille);
+                    couleur.getTriplet().setY(couleur.getTriplet().getY() / taille);
+                    couleur.getTriplet().setZ(couleur.getTriplet().getZ() / taille);
+
                     t = intersection.intersection(new Point(scene.getCamera().getLookFrom()), d);
                     if (t != -1.0) {
                         Point p = new Point(scene.getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(t))));

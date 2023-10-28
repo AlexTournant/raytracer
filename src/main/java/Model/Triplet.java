@@ -22,6 +22,18 @@ public class Triplet {
         return z;
     }
 
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setZ(double z) {
+        this.z = z;
+    }
+
     public Triplet add(Triplet vec) {
         return new Triplet(getX() + vec.getX(), getY() + vec.getY(), getZ() + vec.getZ());
     }

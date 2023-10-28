@@ -22,6 +22,11 @@ public class Color {
 		}
 		else return new Color(temp);
 	}
+
+	public Color addSupperior1(Color tri){
+		Triplet temp = getTriplet().add(tri.getTriplet());
+		return new Color(temp);
+	}
 	
 	public Color scalarMultiply(double scalar) {
 		return new Color(getTriplet().scalarMultiply(scalar));
