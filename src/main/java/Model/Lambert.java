@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.*;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
@@ -88,7 +88,7 @@ public class Lambert implements ICalcul{
     }
 
     public Model.Color sumColor(IObjetScene objetScene,Point p) throws Exception {
-        Model.Color sum = new Model.Color(getScene().getObjets().get(objetScene).getTriplet());
+        Model.Color sum = new Model.Color(0,0,0);
         for (ILight light:getScene().getLights()) {
             if (light.getPosition() == null){
                 double d = max(light.getDirection().normalize().scalarProduct(objetScene.getN(p)), 0);
@@ -100,30 +100,51 @@ public class Lambert implements ICalcul{
             }
         }
         return sum;
+    }
 
+    public Map<IObjetScene,Double> plusProche(Map<IObjetScene,Double> listObjets){
+        if (!listObjets.isEmpty()) {
+            IObjetScene min=listObjets.keySet().stream().toList().get(0);
+            for (IObjetScene objetScene : listObjets.keySet()) {
+                if (listObjets.get(objetScene)<listObjets.get(min)) {
+                    min = objetScene;
+                }
+            }
+            Map<IObjetScene,Double>minDistance=new LinkedHashMap<>();
+            minDistance.put(min,listObjets.get(min));
+            return minDistance;
+        }
+        return null;
     }
 
     public void rayTracing() throws Exception {
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
-        double t;
         Model.Color colorScene=getScene().getColors().get("ambient");
         for (int i = 0; i < this.getScene().getImage().getImageWidth(); i++) {
             for (int j = 0; j < this.getScene().getImage().getImageHeight(); j++) {
                 image.setRGB(i, j, convertModelColorToAwtColor(colorScene.getTriplet().getX(),colorScene.getTriplet().getY(),colorScene.getTriplet().getZ()));
             }
         }
-        for (IObjetScene objet: this.getScene().getObjets().keySet()) {
-                for (int i = 1; i < this.getScene().getImage().getImageWidth(); i++) {
-                    for (int j = 1; j < this.getScene().getImage().getImageHeight(); j++) {
-                        Vector d = getD(i, j);
-                        t = objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d);
-                        if (t != -1.0) {
-                            Point p = new Point(this.getScene().getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(t))));
-                            Model.Color col = getCol(p, objet);
-                            int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
-                            image.setRGB(this.getScene().getImage().getImageWidth() - i, this.getScene().getImage().getImageHeight() - j, rgb);
-                        }
+        for (int i = 1; i < this.getScene().getImage().getImageWidth(); i++) {
+            for (int j = 1; j < this.getScene().getImage().getImageHeight(); j++) {
+                Map<IObjetScene, Double> intersectionObjet = new LinkedHashMap<>();
+                Vector d = getD(i, j);
+                for (IObjetScene objet : this.getScene().getObjets().keySet()) {
+                    if (objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d) != -1.0) {
+                        double t = objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d);
+                        intersectionObjet.put(objet,t);
                     }
+                }
+                //good
+                Map<IObjetScene,Double> minDistance= plusProche(intersectionObjet);
+                if (minDistance != null){
+                    for(IObjetScene objet:minDistance.keySet()) {
+                        Point p = new Point(this.getScene().getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(minDistance.get(objet)))));
+                        Model.Color col = getCol(p, objet);
+                        int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
+                        image.setRGB(this.getScene().getImage().getImageWidth() - i, this.getScene().getImage().getImageHeight() - j, rgb);
+                    }
+                }
             }
             try {
                 ImageIO.write(image, "png", new File(this.getScene().getImage().getImageName()));

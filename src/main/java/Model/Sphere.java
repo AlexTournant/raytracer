@@ -45,7 +45,6 @@ public class Sphere implements IObjetScene {
     public double getRayon() {
         return ray;
     }
-
     public void setOrigine(Point p){
         this.origine=p;
     }
