@@ -43,20 +43,24 @@ public class Triangle implements IObjetScene{
                             Math.pow(((getC().getTriplet().getY() - getB().getTriplet().getY())), 2) +
                             Math.pow(((getC().getTriplet().getZ() - getB().getTriplet().getZ())), 2));
     }
-
     @Override
     public Point getOrigine() {
         return origine;
     }
 
-    @Override
     public double getRayon() {
         return 0;
     }
+    @Override
+    public Vector getN(Point p){
+        return new Vector(getB().subtract(getOrigine()).multiplyVectorial(getC().subtract(getOrigine())).normalize().getTriplet());
+    }
 
-    public double intersection(Point lookFrom, Point q, Vector d) {
+    @Override
+    public double intersection(Point lookFrom, Vector d) {
         Vector n = (this.getB().subtract(getOrigine()).multiplyVectorial(this.getC().subtract(this.getOrigine()))).normalize();
-        double t = Plan.intersection(lookFrom, q, n, d);
+        Plan q=new Plan(getOrigine(),d);
+        double t = q.intersection(lookFrom,d);
         if (t > 0) {
             if ((getB().subtract(getOrigine())).multiplyVectorial(lookFrom.subtract(getOrigine())).scalarProduct(n) < 0) {
                 return -1;
