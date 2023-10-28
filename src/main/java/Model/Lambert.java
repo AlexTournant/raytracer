@@ -135,7 +135,6 @@ public class Lambert implements ICalcul{
                 Map<IObjetScene, Double> intersectionObjet = new LinkedHashMap<>();
                 Vector d = getD(i, j);
                 for (IObjetScene objet : this.getScene().getObjets().keySet()) {
-                    System.out.println(objet);
                     if (objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d) != -1.0) {
                         double t = objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d);
                         intersectionObjet.put(objet,t);

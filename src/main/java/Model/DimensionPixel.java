@@ -34,7 +34,7 @@ public class DimensionPixel {
 
     public static void main(String[] args) throws IOException {
     Parser p=new Parser();
-    p.parse("2Sphere.txt");
+    p.parse("mystere3.txt");
     DimensionPixel dp= new DimensionPixel(p.getWidth(),p.getHeight(),p.getFov());
 }
 
