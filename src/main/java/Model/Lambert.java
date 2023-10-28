@@ -82,29 +82,20 @@ public class Lambert implements ICalcul{
         Vector numerator = tmp1.add(tmp2).subtract(w);
         return new Vector(numerator.getTriplet().normalize());
     }
-    public Model.Color getLD(Vector n,DirectionalLight DLight){
-        return DLight.getColor().scalarMultiply(max(n.scalarProduct(DLight.getDirection()),0)).shurProduct(getScene().getColors().get("diffuse"));
+
+    public Model.Color getCol(Point p,IObjetScene objetScene) throws Exception {
+        return new Model.Color((getScene().getColors().get("ambient").add(sumColor(objetScene,p).shurProduct(getScene().getObjets().get(objetScene)))).getTriplet());
     }
 
-    public Vector getN(Point p,Point cc){
-        return new Vector(p.subtract(cc).normalize().getTriplet());
-    }
-
-    public Model.Color getCol(Point p,Point cc) throws Exception {
-        return new Model.Color(getScene().getColors().get("ambient").add((sumColor(cc,p).shurProduct(getScene().getColors().get("diffuse")))).getTriplet());
-    }
-
-    public Model.Color sumColor(Point cc,Point p) throws Exception {
-        Vector n=getN(p,cc);
-        Model.Color sum = new Model.Color(0,0,0);
+    public Model.Color sumColor(IObjetScene objetScene,Point p) throws Exception {
+        Model.Color sum = new Model.Color(getScene().getObjets().get(objetScene).getTriplet());
         for (ILight light:getScene().getLights()) {
             if (light.getPosition() == null){
-                double d = max(light.getDirection().normalize().scalarProduct(n), 0);
+                double d = max(light.getDirection().normalize().scalarProduct(objetScene.getN(p)), 0);
                 sum = sum.add(light.getColor().scalarMultiply(d));
             }
             else{
-                System.out.println("la");
-                double d = max(light.getPosition().subtract(p).normalize().scalarProduct(n), 0);
+                double d = max(light.getPosition().subtract(p).normalize().scalarProduct(objetScene.getN(p)), 0);
                 sum = sum.add(light.getColor().scalarMultiply(d));
             }
         }
@@ -113,29 +104,26 @@ public class Lambert implements ICalcul{
     }
 
     public void rayTracing() throws Exception {
-        Intersection intersection = new Intersection();
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
         double t;
-        java.awt.Color color = new java.awt.Color(0, 0, 0);
-        int noir = color.getRGB();
+        Model.Color colorScene=getScene().getColors().get("ambient");
         for (int i = 0; i < this.getScene().getImage().getImageWidth(); i++) {
             for (int j = 0; j < this.getScene().getImage().getImageHeight(); j++) {
-                image.setRGB(i, j, noir);
+                image.setRGB(i, j, convertModelColorToAwtColor(colorScene.getTriplet().getX(),colorScene.getTriplet().getY(),colorScene.getTriplet().getZ()));
             }
         }
-        for (IObjetScene objet : this.getScene().getObjets()) {
-            intersection.setIos(objet);
-            for (int i = 0; i < this.getScene().getImage().getImageWidth(); i++) {
-                for (int j = 0; j < this.getScene().getImage().getImageHeight(); j++) {
-                    Vector d = getD(i, j);
-                    t = intersection.intersection(new Point(this.getScene().getCamera().getLookFrom()), d);
-                    if (t != -1.0) {
-                        Point p = new Point(this.getScene().getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(t))));
-                        Model.Color col=getCol(p,intersection.getIos().getOrigine());
-                        int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
-                        image.setRGB(this.getScene().getImage().getImageWidth()-i,this.getScene().getImage().getImageHeight()-j, rgb);
+        for (IObjetScene objet: this.getScene().getObjets().keySet()) {
+                for (int i = 1; i < this.getScene().getImage().getImageWidth(); i++) {
+                    for (int j = 1; j < this.getScene().getImage().getImageHeight(); j++) {
+                        Vector d = getD(i, j);
+                        t = objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d);
+                        if (t != -1.0) {
+                            Point p = new Point(this.getScene().getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(t))));
+                            Model.Color col = getCol(p, objet);
+                            int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
+                            image.setRGB(this.getScene().getImage().getImageWidth() - i, this.getScene().getImage().getImageHeight() - j, rgb);
+                        }
                     }
-                }
             }
             try {
                 ImageIO.write(image, "png", new File(this.getScene().getImage().getImageName()));

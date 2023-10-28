@@ -84,28 +84,27 @@ public class Normal implements ICalcul {
     }
 
     public void rayTracing() throws Exception {
-        Intersection intersection = new Intersection();
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
         double t;
-        java.awt.Color color = new java.awt.Color(0, 0, 0);
+        java.awt.Color color = new java.awt.Color(convertModelColorToAwtColor(getScene().getColors().get("ambient").getTriplet().getX(),getScene().getColors().get("ambient").getTriplet().getY(),getScene().getColors().get("ambient").getTriplet().getZ()));
         int noir = color.getRGB();
         for (int i = 0; i < scene.getImage().getImageWidth(); i++) {
             for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
                 image.setRGB(i, j, noir);
             }
         }
-        for (IObjetScene objet : scene.getObjets()) {
-            intersection.setIos(objet);
-            for (int i = 0; i < scene.getImage().getImageWidth(); i++) {
-                for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
-                    Vector d = getD(i, j);
-                    t = intersection.intersection(new Point(scene.getCamera().getLookFrom()), d);
-                    if (t != -1.0) {
-                        Model.Color c = scene.getColors().get("ambient");
-                        int rgb = convertModelColorToAwtColor(c.getTriplet().getX(), c.getTriplet().getY(), c.getTriplet().getZ());
-                        image.setRGB(scene.getImage().getImageWidth()-i,scene.getImage().getImageHeight()-j, rgb);
+        for (IObjetScene objet: this.getScene().getObjets().keySet()) {
+                System.out.println(objet.getClass());
+                for (int i = 0; i < scene.getImage().getImageWidth(); i++) {
+                    for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
+                        Vector d = getD(i, j);
+                        t = objet.intersection(new Point(scene.getCamera().getLookFrom()), d);
+                        if (t != -1.0) {
+                            Model.Color c = scene.getColors().get("ambient");
+                            int rgb = convertModelColorToAwtColor(c.getTriplet().getX(), c.getTriplet().getY(), c.getTriplet().getZ());
+                            image.setRGB(scene.getImage().getImageWidth() - i, scene.getImage().getImageHeight() - j, rgb);
+                        }
                     }
-                }
             }
             try {
                 ImageIO.write(image, "png", new File(scene.getImage().getImageName()));
@@ -113,11 +112,11 @@ public class Normal implements ICalcul {
                 e.printStackTrace();
             }
         }
-    }
+        }
     public int convertModelColorToAwtColor(double r, double g, double b) {
-        int red = (int) (r * 255);
-        int green = (int) (g * 255);
-        int blue = (int) (b * 255);
+        float red = (float) (r * 255);
+        float green = (float) (g * 255);
+        float blue = (float) (b * 255);
 
         return new java.awt.Color(red, green, blue).getRGB();
     }
