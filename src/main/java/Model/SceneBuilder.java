@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ public class SceneBuilder implements Builder{
     private Map<IObjetScene,Color> objets=new LinkedHashMap<>();
 
     private ArrayList<ILight> lights;
+
+    private Map<IColorStrategy,IObjetScene> stratColor=new LinkedHashMap<>();
 
     @Override
     public void withCamera(Camera cam) {
@@ -25,6 +28,12 @@ public class SceneBuilder implements Builder{
     public void withColors(Map<String,Color> colors) {
         this.colors = colors;
     }
+
+    @Override
+    public void withStratColor(Map<IColorStrategy, IObjetScene> stratColor) {
+        this.stratColor=stratColor;
+    }
+
     @Override
     public void withObjets(Map<IObjetScene, Color> objets) {
         this.objets = objets;
@@ -36,6 +45,6 @@ public class SceneBuilder implements Builder{
     }
     @Override
     public Scene build() {
-        return new Scene(this.camera,this.image,this.colors,this.objets,this.lights);
+        return new Scene(this.camera,this.image,this.colors,this.objets,this.lights,this.stratColor);
     }
 }

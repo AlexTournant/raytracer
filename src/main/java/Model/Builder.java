@@ -9,5 +9,7 @@ public interface Builder {
     void withLights(ArrayList<ILight> lights);
     void withObjets(Map<IObjetScene, Color> objets);
     void withColors(Map<String,Color> colors);
+
+    void withStratColor(Map<IColorStrategy,IObjetScene> stratColor);
     Scene build();
 }
