@@ -29,7 +29,7 @@ Pour le deuxième nous avons utilisé la stratégie, un patron de conception qui
 
 Par la suite nous avons opté pour l'état (state) qui modifie le comportement d'un objet lorsque son état interne change, comme si l'objet changeait de classe, dans notre cas nous l'avons utilisé pour les ombres
 
-![image.png](uploads/acdea8cad74806765b8acb99bbf0a6e5/image.png)
+![](https://gitlab.univ-artois.fr/enseignements-rwa/modules/but-2/r3-04/cours/-/raw/main/figures/patrons/state.png)
 
 (Schéma de l'état)
 
