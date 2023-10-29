@@ -1,2 +1,2 @@
 #!/bin/bash
-java -cp ../bin Main.main "$1"
+java -cp ../bin Main.main "$1" 
