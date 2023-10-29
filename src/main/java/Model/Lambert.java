@@ -33,21 +33,21 @@ public class Lambert implements ICalcul{
     }
     //good
     public Vector orthonormalW(){
-        Triplet lookFrom = getScene().getCamera().getLookFrom();
-        Triplet lookAt = getScene().getCamera().getLookAt();
-        return new Vector(lookFrom.subtract(lookAt).normalize());
+        Point lookFrom = getScene().getCamera().getLookFrom();
+        Point lookAt = getScene().getCamera().getLookAt();
+        return lookFrom.subtract(lookAt).normalize();
     }
 
     public Vector orthonormalU(){
-        Triplet w = orthonormalW().getTriplet();
-        Triplet up = getScene().getCamera().getUp();
-        return new Vector(w.multiplyVectorial(up).normalize());
+        Vector w = orthonormalW();
+        Vector up = getScene().getCamera().getUp();
+        return new Vector(w.multiplyVectorial(up).normalize().getTriplet());
     }
 
     public Vector orthonormalV(){
-        Triplet w = orthonormalW().getTriplet();
-        Triplet u=orthonormalU().getTriplet();
-        return new Vector(w.multiplyVectorial(u).normalize());
+        Vector w = orthonormalW();
+        Vector u=orthonormalU();
+        return w.multiplyVectorial(u).normalize();
     }
 
 
@@ -124,7 +124,7 @@ public class Lambert implements ICalcul{
 
     public void rayTracing() throws Exception {
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
-        Model.Color colorScene=getScene().getColors().get("ambient");
+        Model.Color colorScene=new Model.Color(0,0,0);
         for (int i = 0; i < this.getScene().getImage().getImageWidth(); i++) {
             for (int j = 0; j < this.getScene().getImage().getImageHeight(); j++) {
                 image.setRGB(i, j, convertModelColorToAwtColor(colorScene.getTriplet().getX(),colorScene.getTriplet().getY(),colorScene.getTriplet().getZ()));
@@ -135,16 +135,15 @@ public class Lambert implements ICalcul{
                 Map<IObjetScene, Double> intersectionObjet = new LinkedHashMap<>();
                 Vector d = getD(i, j);
                 for (IObjetScene objet : this.getScene().getObjets().keySet()) {
-                    System.out.println(objet);
-                    if (objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d) != -1.0) {
-                        double t = objet.intersection(new Point(this.getScene().getCamera().getLookFrom()), d);
+                    if (objet.intersection(this.getScene().getCamera().getLookFrom(), d) != -1.0) {
+                        double t = objet.intersection(this.getScene().getCamera().getLookFrom(), d);
                         intersectionObjet.put(objet,t);
                     }
                 }
                 Map<IObjetScene,Double> minDistance= plusProche(intersectionObjet);
                 if (minDistance != null){
                     for(IObjetScene objet:minDistance.keySet()) {
-                        Point p = new Point(this.getScene().getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(minDistance.get(objet)))));
+                        Point p = new Point(d.scalarMultiply(minDistance.get(objet)).add(this.getScene().getCamera().getLookFrom()).getTriplet());
                         Model.Color col = getCol(p, objet,i,j);
                         int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
                         image.setRGB(this.getScene().getImage().getImageWidth() - i, this.getScene().getImage().getImageHeight() - j, rgb);
