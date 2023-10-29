@@ -2,7 +2,7 @@
 
 ## Diagramme de classes
 
-![](https://gitlab.univ-artois.fr/mael_demory/sae-s3.a.01/-/raw/main/UML/diagram.png)
+![image.png](./image.png)
 (Diagramme de classes)
 
 ---
