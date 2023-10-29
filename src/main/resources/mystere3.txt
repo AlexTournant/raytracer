@@ -1,0 +1,33 @@
+size 640 480
+camera 0 0 8 0 0 0 0 1 0 45
+output mystere3.png
+
+shadow true
+
+ambient .1 .1 .1
+
+directional 1 1 1 1 1 1
+shininess 10
+
+maxverts 4
+
+vertex -2 -2 -1
+vertex -2 2 -1
+vertex 2 2 -1
+vertex 2 -2 -1
+
+diffuse .2 .9 .2
+plane 0 0 -2 0 0 1
+
+diffuse .3 .3 .3
+specular .1 .1 .2
+tri 0 3 2
+tri 0 2 1
+
+specular .2 .2 .2
+diffuse 0 .7 .7
+sphere -2 1 0 1
+diffuse .7 0 0
+sphere 2 1 0 1
+diffuse 0 .7 0
+sphere 1 -1 0 1
