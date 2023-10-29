@@ -1,9 +1,9 @@
-package Model;
+package Affichage;
 
 public class Image {
     private int ImageWidth;
     private int ImageHeight;
-    private String ImageName = "output.png";
+    private String ImageName ;
 
     public Image(int ImageWidth, int ImageHeight, String ImageName) {
         this.ImageWidth = ImageWidth;
@@ -15,23 +15,11 @@ public class Image {
         return ImageWidth;
     }
 
-    public void setImageWidth(int ImageWidth) {
-        this.ImageWidth = ImageWidth;
-    }
-
     public int getImageHeight() {
         return ImageHeight;
     }
 
-    public void setImageHeight(int ImageHeight) {
-        this.ImageHeight = ImageHeight;
-    }
-
     public String getImageName() {
         return ImageName;
-    }
-
-    public void setImageName(String ImageName) {
-        this.ImageName = ImageName;
     }
 }

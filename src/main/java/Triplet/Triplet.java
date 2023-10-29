@@ -1,4 +1,4 @@
-package Model;
+package Triplet;
 
 public class Triplet {
     private double x, y, z;

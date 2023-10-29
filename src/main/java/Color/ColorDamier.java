@@ -1,4 +1,6 @@
-package Model;
+package Color;
+
+import Triplet.Color;
 
 public class ColorDamier implements IColorStrategy{
     private Color color1;

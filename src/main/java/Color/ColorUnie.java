@@ -1,8 +1,6 @@
-package Model;
+package Color;
 
-import java.util.Map;
-
-import static java.lang.Math.max;
+import Triplet.Color;
 
 public class ColorUnie implements IColorStrategy{
     private Color color;

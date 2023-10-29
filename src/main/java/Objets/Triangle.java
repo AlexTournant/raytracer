@@ -1,5 +1,8 @@
-package Model;
+package Objets;
 
+
+import Triplet.Point;
+import Triplet.Vector;
 
 public class Triangle implements IObjetScene{
     private Point origine, b, c;
@@ -14,16 +17,8 @@ public class Triangle implements IObjetScene{
         return b;
     }
 
-    public void setB(Point b) {
-        this.b = b;
-    }
-
     public Point getC() {
         return c;
-    }
-
-    public void setC(Point c) {
-        this.c = c;
     }
 
     public double getDistanceAB() {

@@ -1,4 +1,4 @@
-package Model;
+package Triplet;
 
 public class Color {
 	Triplet triplet;

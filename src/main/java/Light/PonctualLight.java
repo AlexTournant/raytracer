@@ -1,4 +1,8 @@
-package Model;
+package Light;
+
+import Triplet.Color;
+import Triplet.Point;
+import Triplet.Vector;
 
 public class PonctualLight implements ILight {
     private Color color;

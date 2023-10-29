@@ -1,4 +1,8 @@
-package Model;
+package Objets;
+
+import Triplet.Color;
+import Triplet.Point;
+import Triplet.Vector;
 
 public class Sphere implements IObjetScene {
 
@@ -11,14 +15,6 @@ public class Sphere implements IObjetScene {
         this.ray = ray;
     }
 
-    public double getRay() {
-        return ray;
-    }
-
-    public void setRay(double ray) {
-        this.ray = ray;
-    }
-
     public Color getColor() {
         return color;
     }
@@ -27,26 +23,11 @@ public class Sphere implements IObjetScene {
         this.color = color;
     }
 
-    public double getDiameter() {
-        return this.getRay() * 2;
-    }
-
-    public double getCircumference() {
-        return 2 * Math.PI * this.getRay();
-    }
-
-    public double getVolume() {
-        return (double) 4 / 3 * Math.PI * Math.pow(this.getRay(), 3);
-    }
-
     public Point getOrigine() {
         return origine;
     }
     public double getRayon() {
         return ray;
-    }
-    public void setOrigine(Point p){
-        this.origine=p;
     }
 
     public double intersection(Point lookFrom, Vector d) {

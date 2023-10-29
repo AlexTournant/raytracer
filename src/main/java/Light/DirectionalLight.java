@@ -1,6 +1,8 @@
-package Model;
+package Light;
 
-import javax.annotation.processing.Generated;
+import Triplet.Color;
+import Triplet.Point;
+import Triplet.Vector;
 
 public class DirectionalLight implements ILight {
     private Color color;

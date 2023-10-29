@@ -1,7 +1,13 @@
-package Model;
+package Scene;
+
+import Triplet.Color;
+import Affichage.Camera;
+import Light.ILight;
+import Objets.IObjetScene;
+import Affichage.Image;
+import Color.IColorStrategy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -10,7 +16,7 @@ public class SceneBuilder implements Builder{
     private Image image;
     private Map<String, Color> colors;
 
-    private Map<IObjetScene,IColorStrategy> objets=new LinkedHashMap<>();
+    private Map<IObjetScene, IColorStrategy> objets=new LinkedHashMap<>();
     private ArrayList<ILight> lights;
 
     @Override

@@ -1,4 +1,7 @@
-package Model;
+package Objets;
+
+import Triplet.Point;
+import Triplet.Vector;
 
 public class Plan implements IObjetScene{
     private Point origine;
@@ -9,21 +12,9 @@ public class Plan implements IObjetScene{
         this.origine=origine;
         this.normal=normal.normalize();
     }
-
-    public void setOrigine(Point origine) {
-        this.origine = origine;
-    }
-
-    public void setNormal(Vector normal) {
-        this.normal = normal;
-    }
     @Override
     public Point getOrigine() {
         return origine;
-    }
-
-    public double getRayon() {
-        return 0;
     }
 
     @Override

@@ -1,4 +1,7 @@
-package Model;
+package Objets;
+
+import Triplet.Point;
+import Triplet.Vector;
 
 public interface IObjetScene {
     double intersection(Point lookFrom, Vector d);

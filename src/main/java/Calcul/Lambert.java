@@ -1,4 +1,12 @@
-package Model;
+package Calcul;
+
+import Light.ILight;
+import Triplet.Color;
+import Triplet.Point;
+import Triplet.Vector;
+import Objets.IObjetScene;
+import Color.ColorUnie;
+import Scene.Scene;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -6,7 +14,6 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
 public class Lambert implements ICalculStrategy {
@@ -81,17 +88,17 @@ public class Lambert implements ICalculStrategy {
         return new Vector(numerator.getTriplet().normalize());
     }
 
-    public Model.Color getCol(Point p,IObjetScene objetScene,int i,int j) throws Exception {
+    public Color getCol(Point p, IObjetScene objetScene, int i, int j) throws Exception {
         if (getScene().getObjets().get(objetScene).getClass()==(ColorUnie.class)) {
-            return new Model.Color((getScene().getColors().get("ambient").add(sumColor(objetScene, p).shurProduct(getScene().getObjets().get(objetScene).getColor(i, j)))).getTriplet());
+            return new Color((getScene().getColors().get("ambient").add(sumColor(objetScene, p).shurProduct(getScene().getObjets().get(objetScene).getColor(i, j)))).getTriplet());
         }
         else{
             return getScene().getObjets().get(objetScene).getColor(i,j);
         }
     }
 
-    public Model.Color sumColor(IObjetScene objetScene,Point p) throws Exception {
-        Model.Color sum = new Model.Color(0,0,0);
+    public Color sumColor(IObjetScene objetScene, Point p) throws Exception {
+        Color sum = new Color(0,0,0);
         for (ILight light:getScene().getLights()) {
             if (light.getPosition() == null){
                 double d = max(light.getDirection().normalize().scalarProduct(objetScene.getN(p)), 0);
@@ -122,7 +129,7 @@ public class Lambert implements ICalculStrategy {
 
     public void rayTracing() throws Exception {
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
-        Model.Color colorScene=new Model.Color(0,0,0);
+        Color colorScene=new Color(0,0,0);
         for (int i = 0; i < this.getScene().getImage().getImageWidth(); i++) {
             for (int j = 0; j < this.getScene().getImage().getImageHeight(); j++) {
                 image.setRGB(i, j, convertModelColorToAwtColor(colorScene.getTriplet().getX(),colorScene.getTriplet().getY(),colorScene.getTriplet().getZ()));
@@ -142,7 +149,7 @@ public class Lambert implements ICalculStrategy {
                 if (minDistance != null){
                     for(IObjetScene objet:minDistance.keySet()) {
                         Point p = new Point(d.scalarMultiply(minDistance.get(objet)).add(this.getScene().getCamera().getLookFrom()).getTriplet());
-                        Model.Color col = getCol(p, objet,i,j);
+                        Color col = getCol(p, objet,i,j);
                         int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
                         image.setRGB(this.getScene().getImage().getImageWidth() - i, this.getScene().getImage().getImageHeight() - j, rgb);
                     }

@@ -1,4 +1,4 @@
-package Model;
+package Shadow;
 
 public class ActivateShadows implements IShadowState {
 

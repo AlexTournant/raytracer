@@ -1,4 +1,4 @@
-package Model;
+package Triplet;
 
 public class Point {
 	Triplet triplet;
@@ -21,5 +21,4 @@ public class Point {
 		return new Point(getTriplet().scalarMultiply(scalar));
 	}
 
-	
 }

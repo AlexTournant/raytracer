@@ -1,4 +1,7 @@
-package Model;
+package Affichage;
+
+import Triplet.Point;
+import Triplet.Vector;
 
 public class Camera {
     private Point lookFrom;
@@ -17,16 +20,8 @@ public class Camera {
         return lookFrom;
     }
 
-    public void setLookFrom(Point lookFrom) {
-        this.lookFrom = lookFrom;
-    }
-
     public Point getLookAt() {
         return lookAt;
-    }
-
-    public void setLookAt(Point lookAt) {
-        this.lookAt = lookAt;
     }
 
     public Vector getUp() {
@@ -39,9 +34,5 @@ public class Camera {
 
     public int getFov() {
         return fov;
-    }
-
-    public void setFov(int fov) {
-        this.fov = fov;
     }
 }

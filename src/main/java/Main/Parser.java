@@ -1,4 +1,20 @@
-package Model;
+package Main;
+
+import Affichage.Camera;
+import Affichage.Image;
+import Light.DirectionalLight;
+import Light.ILight;
+import Light.PonctualLight;
+import Triplet.Color;
+import Objets.IObjetScene;
+import Objets.Plan;
+import Objets.Sphere;
+import Objets.Triangle;
+import Scene.SceneBuilder;
+import Triplet.Triplet;
+import Triplet.Point;
+import Triplet.Vector;
+import Color.*;
 
 import java.io.*;
 import java.util.*;
@@ -9,25 +25,16 @@ public class Parser {
     private int height;
     private int width;
     private boolean shadowOn;
-    private int taille;
     private String nomImage;
 
     private ColorDamier colorDamier ;
     private  ArrayList<Triplet> TCamera=new ArrayList<>();
-
-    private ArrayList<Camera> cameras=new ArrayList<>();
     private int fov;
-    private Map<String,Color> colors=new LinkedHashMap<>();
+    private Map<String, Color> colors=new LinkedHashMap<>();
 
-    private ArrayList<Image> image=new ArrayList<>();
-    private int maxvert;
     private  Point[] points;
-    private ArrayList<Triangle> triangles=new ArrayList<>();
 
-    private ArrayList<Sphere> spheres=new ArrayList<>();
-    private ArrayList<Plan> plans=new ArrayList<>();
-
-    private Map<IObjetScene,IColorStrategy> diffuse=new LinkedHashMap<>();
+    private Map<IObjetScene, IColorStrategy> diffuse=new LinkedHashMap<>();
 
     private ArrayList<ILight> listLights=new ArrayList<>();
     private boolean check;
@@ -44,20 +51,12 @@ public class Parser {
         this.colorDamier = colorDamier;
     }
 
-    public void setSb(SceneBuilder sb) {
-        this.sb = sb;
-    }
-
     public int getOcc() {
         return occ;
     }
 
     public void setOcc() {
         this.occ++;
-    }
-
-    public int getTaille() {
-        return taille;
     }
 
     public boolean isCheck() {
@@ -68,32 +67,12 @@ public class Parser {
         this.check = check;
     }
 
-    public void setTaille(int taille) {
-        this.taille = taille;
-    }
-
     public ArrayList<ILight> getListLights() {
         return listLights;
     }
 
-    public void setListLights(ArrayList<ILight> listLights) {
-        this.listLights = listLights;
-    }
-
-    public int getMaxvert() {
-        return maxvert;
-    }
-
-    public void setMaxvert(int maxvert) {
-        this.maxvert = maxvert;
-    }
-
     public Map<IObjetScene, IColorStrategy> getDiffuse() {
         return diffuse;
-    }
-
-    public void setDiffuse(Map<IObjetScene, IColorStrategy> diffuse) {
-        this.diffuse = diffuse;
     }
 
     public int getHeight() {
@@ -116,14 +95,6 @@ public class Parser {
         return TCamera;
     }
 
-    public ArrayList<Image> getImage() {
-        return image;
-    }
-
-    public void setImage(ArrayList<Image> image) {
-        this.image = image;
-    }
-
     public int getFov() {
         return fov;
     }
@@ -136,10 +107,6 @@ public class Parser {
         return colors;
     }
 
-    public void setColors(Map<String, Color> colors) {
-        this.colors = colors;
-    }
-
     public void setPoints(int column) {
         points=new Point[column];
     }
@@ -148,56 +115,12 @@ public class Parser {
         return points;
     }
 
-    public ArrayList<Triangle> getTriangles() {
-        return triangles;
-    }
-
-    public ArrayList<Sphere> getSpheres() {
-        return spheres;
-    }
-
-    public ArrayList<Plan> getPlans() {
-        return plans;
-    }
-
     public String getNomImage() {
         return nomImage;
     }
 
     public void setNomImage(String nomImage) {
         this.nomImage = nomImage;
-    }
-
-    public void setTCamera(ArrayList<Triplet> TCamera) {
-        this.TCamera = TCamera;
-    }
-
-    public ArrayList<Camera> getCameras() {
-        return cameras;
-    }
-
-    public void setCameras(ArrayList<Camera> cameras) {
-        this.cameras = cameras;
-    }
-
-    public void setPoints(Point[] points) {
-        this.points = points;
-    }
-
-    public void setTriangles(ArrayList<Triangle> triangles) {
-        this.triangles = triangles;
-    }
-
-    public void setSpheres(ArrayList<Sphere> spheres) {
-        this.spheres = spheres;
-    }
-
-    public void setPlans(ArrayList<Plan> plans) {
-        this.plans = plans;
-    }
-
-    public boolean isShadowOn() {
-        return shadowOn;
     }
 
     public void setShadowOn(boolean shadowOn) {
@@ -235,7 +158,6 @@ public class Parser {
             String str = sb.toString();
             // Split the string into an array of words using space as the delimiter
             String[] words = str.split("\n");
-            Map<String, ArrayList<ArrayList<Object>>> tableauAssociatif = new LinkedHashMap<>();
             for (String word : words) {
                 String[] a = word.split(" ");
                 ArrayList<Object> tab=new ArrayList<>();

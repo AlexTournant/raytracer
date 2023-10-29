@@ -1,6 +1,10 @@
-package Model;
+package Main;
 
-import java.io.IOException;
+import Calcul.ICalculStrategy;
+import Calcul.Lambert;
+import Calcul.Normal;
+import Scene.Scene;
+
 import java.util.ArrayList;
 
 public class Main {

@@ -1,14 +1,19 @@
-package Model;
+package Scene;
+
+import Triplet.Color;
+import Affichage.Camera;
+import Light.ILight;
+import Objets.IObjetScene;
+import Affichage.Image;
+import Color.IColorStrategy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Scene {
     private final Camera camera;
     private final Image image;
-    private final Map<String,Color> colors;
+    private final Map<String, Color> colors;
     private final Map<IObjetScene, IColorStrategy> objets;
     private final ArrayList<ILight> lights;
 

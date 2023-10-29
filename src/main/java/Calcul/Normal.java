@@ -1,12 +1,16 @@
-package Model;
+package Calcul;
+
+import Triplet.Color;
+import Objets.IObjetScene;
+import Scene.Scene;
+import Triplet.Triplet;
+import Triplet.Vector;
+import Triplet.Point;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
-
-import static java.lang.Math.abs;
-import static java.lang.Math.max;
 
 public class Normal implements ICalculStrategy {
     private Scene scene;
@@ -83,7 +87,7 @@ public class Normal implements ICalculStrategy {
 
     public void rayTracing() throws Exception {
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
-        Model.Color colorScene=new Model.Color(0,0,0);
+        Color colorScene=new Color(0,0,0);
         for (int i = 0; i < this.getScene().getImage().getImageWidth(); i++) {
             for (int j = 0; j < this.getScene().getImage().getImageHeight(); j++) {
                 image.setRGB(i, j, convertModelColorToAwtColor(colorScene.getTriplet().getX(),colorScene.getTriplet().getY(),colorScene.getTriplet().getZ()));
@@ -94,7 +98,7 @@ public class Normal implements ICalculStrategy {
                 Vector d = getD(i, j);
                 for (IObjetScene objet : this.getScene().getObjets().keySet()) {
                     if (objet.intersection(this.getScene().getCamera().getLookFrom(), d) != -1.0) {
-                        Model.Color col = getScene().getColors().get("ambient");
+                        Color col = getScene().getColors().get("ambient");
                         int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
                         image.setRGB(this.getScene().getImage().getImageWidth() - i, this.getScene().getImage().getImageHeight() - j, rgb);
                     }
