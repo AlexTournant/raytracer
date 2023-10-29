@@ -1,7 +1,5 @@
 package Model;
 
-import java.io.IOException;
-
-public interface ICalcul {
+public interface ICalculStrategy {
     void rayTracing() throws Exception;
 }
