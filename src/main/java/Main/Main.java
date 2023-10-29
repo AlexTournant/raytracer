@@ -22,11 +22,11 @@ public class Main {
      * @throws Exception if an error occurs during parsing or ray tracing.
      */
     public static void main(String[] args) throws Exception {
-        String fileName = args[0];
         // Define a list of input file names.
         ArrayList<String> files = new ArrayList<>();
-        files.add(fileName);
-
+        files.add("mystere1.txt");
+        files.add("mystere2.txt");
+        files.add("mystere3.txt");
 
         // Iterate through the input files and process each scene.
         for (String file : files) {
