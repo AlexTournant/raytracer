@@ -64,6 +64,12 @@ public class Normal implements ICalculStrategy {
         return scene;
     }
     //good
+
+    /**
+     * Calculates an orthonormal vector in the direction of the camera's "look from" to "look at" vector.
+     *
+     * @return An orthonormal vector pointing from the camera's "look from" to "look at."
+     */
     public Vector orthonormalW(){
         Point lookFrom = getScene().getCamera().getLookFrom();
         Point lookAt = getScene().getCamera().getLookAt();
