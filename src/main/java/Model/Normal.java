@@ -94,7 +94,6 @@ public class Normal implements ICalculStrategy {
                 Vector d = getD(i, j);
                 for (IObjetScene objet : this.getScene().getObjets().keySet()) {
                     if (objet.intersection(this.getScene().getCamera().getLookFrom(), d) != -1.0) {
-                        System.out.println(objet.intersection(this.getScene().getCamera().getLookFrom(), d));
                         Model.Color col = getScene().getColors().get("ambient");
                         int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
                         image.setRGB(this.getScene().getImage().getImageWidth() - i, this.getScene().getImage().getImageHeight() - j, rgb);
