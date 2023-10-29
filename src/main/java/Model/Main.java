@@ -1,25 +1,26 @@
 package Model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        //String fileName = args[0];
+        String[] fileName = args;
         ArrayList<String> files=new ArrayList<>();
+        files.add("mystere1.txt");
+        files.add("mystere2.txt");
         files.add("mystere3.txt");
-        //p.parse(fileName);
+        //for (String file:fileName){
         for (String file:files){
             Parser p=new Parser();
             p.parse(file);
             Scene scene = p.getSb().build();
             if(!scene.getLights().isEmpty()) {
-                ICalcul IC=new Lambert(scene);
+                ICalculStrategy IC=new Lambert(scene);
                 IC.rayTracing();
             }
             else{
-                ICalcul IC=new Normal(scene);
+                ICalculStrategy IC=new Normal(scene);
                 IC.rayTracing();
             }
         }

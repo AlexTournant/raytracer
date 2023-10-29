@@ -80,6 +80,6 @@ public class Sphere implements IObjetScene {
 
     @Override
     public Vector getN(Point p){
-        return new Vector(p.subtract(getOrigine()).normalize().getTriplet());
+        return p.subtract(getOrigine()).normalize();
     }
 }

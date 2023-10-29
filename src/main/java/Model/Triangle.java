@@ -58,17 +58,16 @@ public class Triangle implements IObjetScene{
 
     @Override
     public double intersection(Point lookFrom, Vector d) {
-        Vector n = (this.getB().subtract(getOrigine()).multiplyVectorial(this.getC().subtract(this.getOrigine()))).normalize();
-        Plan q=new Plan(getOrigine(),d);
+        Vector n = this.getB().subtract(getOrigine()).multiplyVectorial(this.getC().subtract(this.getOrigine()));
+        Plan q=new Plan(getOrigine(),n);
         double t = q.intersection(lookFrom,d);
-        if (t > 0) {
-            if ((getB().subtract(getOrigine())).multiplyVectorial(lookFrom.subtract(getOrigine())).scalarProduct(n) < 0) {
-                return -1;
-            } else if ((getC().subtract(getB())).multiplyVectorial(lookFrom.subtract(getB())).scalarProduct(n) < 0) {
-                return -1;
-            } else if ((getOrigine().subtract(getC())).multiplyVectorial(lookFrom.subtract(getC())).scalarProduct(n) < 0) {
-                return -1;
-            }
+        Point p=d.scalarMultiply(t).add(lookFrom);
+        if((b.subtract(origine).multiplyVectorial(p.subtract(origine))).scalarProduct(n)<0){
+            return -1;
+        } else if ((c.subtract(b).multiplyVectorial(p.subtract(b))).scalarProduct(n)<0) {
+            return -1;
+        } else if ((origine.subtract(c).multiplyVectorial(p.subtract(c))).scalarProduct(n)<0) {
+            return -1;
         }
         return t;
     }

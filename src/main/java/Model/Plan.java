@@ -29,8 +29,8 @@ public class Plan implements IObjetScene{
     @Override
     public double intersection(Point lookFrom, Vector d) {
         double t ;
-        if (d.getTriplet().normalize().scalarProduct(this.normal.getTriplet().normalize()) != 0) {
-            t = (((getOrigine().subtract(lookFrom)).getTriplet()).scalarProduct(this.normal.getTriplet().normalize())) / d.getTriplet().normalize().scalarProduct(this.normal.getTriplet().normalize());
+        if (d.scalarProduct(this.normal) != 0) {
+            t=-(lookFrom.subtract(origine).scalarProduct(normal))/(d.scalarProduct(normal));
             return t;
         }
         return -1;
@@ -38,6 +38,6 @@ public class Plan implements IObjetScene{
 
     @Override
     public Vector getN(Point p) {
-        return this.normal;
+        return new Vector(this.normal.getTriplet());
     }
 }

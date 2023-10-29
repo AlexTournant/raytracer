@@ -204,7 +204,15 @@ public class Parser {
         this.shadowOn = shadowOn;
     }
 
+    public void init(){
+        setWidth(680);
+        setHeight(480);
+        getColors().put("ambient", new Color(0, 0, 0));
+        getColors().put("diffuse", new Color(0, 0, 0));
+    }
+
     public void parse(String nomFile) throws java.io.IOException {
+        init();
         try {
             // Le fichier d'entrée
             File file = new File("src\\main\\resources\\"+nomFile);
@@ -283,7 +291,7 @@ public class Parser {
                         case "vertex" -> {
                             getPoints()[getOcc()] = new Point(Double.parseDouble(tab.get(0).toString()),Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString()));
                             setOcc();
-                            System.out.println(Arrays.toString(getPoints()));
+
                         }
                         case "tri" ->
                             diffuse.put( new Triangle(getPoints()[Integer.parseInt(tab.get(0).toString())], getPoints()[Integer.parseInt(tab.get(1).toString())], getPoints()[Integer.parseInt(tab.get(2).toString())]), new ColorUnie(colors.get("diffuse")));
@@ -315,7 +323,7 @@ public class Parser {
 
     public Camera getCamera() {
         if(getTCamera().size()>2){
-            return new Camera(getTCamera().get(0),getTCamera().get(1),getTCamera().get(2),getFov());
+            return new Camera(new Point(getTCamera().get(0)),new Point(getTCamera().get(1)),new Vector(getTCamera().get(2)),getFov());
         }
         return null;
     }
