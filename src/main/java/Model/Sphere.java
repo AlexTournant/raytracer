@@ -39,18 +39,47 @@ public class Sphere implements IObjetScene {
         return (double) 4 / 3 * Math.PI * Math.pow(this.getRay(), 3);
     }
 
-
-    @Override
     public Point getOrigine() {
         return origine;
     }
-
-    @Override
     public double getRayon() {
         return ray;
     }
-
     public void setOrigine(Point p){
         this.origine=p;
+    }
+
+    public double intersection(Point lookFrom, Vector d) {
+        double a = 1;
+        double b = ((lookFrom.subtract(getOrigine())).scalarProduct(d))*2;
+        double c = (lookFrom.subtract(getOrigine()).scalarProduct(lookFrom.subtract(getOrigine())))-Math.pow(getRayon(),2);
+        double delta = Math.pow(b, 2) - (4 * a * c);
+        if (delta < 0) {
+            return -1;
+        } else if (delta == 0) {
+            double alpha = -b / (2 * a);
+            if (alpha < 0) {
+                return -1;
+            } else {
+                return alpha;
+            }
+        } else {
+            double t1 = (-b + Math.sqrt(delta)) / (2 * a);
+            double t2 = (-b - Math.sqrt(delta)) / (2 * a);
+            if (t2 > 0) {
+                return t2;
+            } else if (t1 > 0) {
+                return t1;
+            } else {
+                return -1;
+            }
+        }
+
+
+    }
+
+    @Override
+    public Vector getN(Point p){
+        return p.subtract(getOrigine()).normalize();
     }
 }

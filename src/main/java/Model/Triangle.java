@@ -43,28 +43,31 @@ public class Triangle implements IObjetScene{
                             Math.pow(((getC().getTriplet().getY() - getB().getTriplet().getY())), 2) +
                             Math.pow(((getC().getTriplet().getZ() - getB().getTriplet().getZ())), 2));
     }
-
     @Override
     public Point getOrigine() {
         return origine;
     }
 
-    @Override
     public double getRayon() {
         return 0;
     }
+    @Override
+    public Vector getN(Point p){
+        return new Vector(getB().subtract(getOrigine()).multiplyVectorial(getC().subtract(getOrigine())).normalize().getTriplet());
+    }
 
-    public double intersection(Point lookFrom, Point q, Vector d) {
-        Vector n = (this.getB().subtract(getOrigine()).multiplyVectorial(this.getC().subtract(this.getOrigine()))).normalize();
-        double t = Plan.intersection(lookFrom, q, n, d);
-        if (t > 0) {
-            if ((getB().subtract(getOrigine())).multiplyVectorial(lookFrom.subtract(getOrigine())).scalarProduct(n) < 0) {
-                return -1;
-            } else if ((getC().subtract(getB())).multiplyVectorial(lookFrom.subtract(getB())).scalarProduct(n) < 0) {
-                return -1;
-            } else if ((getOrigine().subtract(getC())).multiplyVectorial(lookFrom.subtract(getC())).scalarProduct(n) < 0) {
-                return -1;
-            }
+    @Override
+    public double intersection(Point lookFrom, Vector d) {
+        Vector n = this.getB().subtract(getOrigine()).multiplyVectorial(this.getC().subtract(this.getOrigine()));
+        Plan q=new Plan(getOrigine(),n);
+        double t = q.intersection(lookFrom,d);
+        Point p=d.scalarMultiply(t).add(lookFrom);
+        if((b.subtract(origine).multiplyVectorial(p.subtract(origine))).scalarProduct(n)<0){
+            return -1;
+        } else if ((c.subtract(b).multiplyVectorial(p.subtract(b))).scalarProduct(n)<0) {
+            return -1;
+        } else if ((origine.subtract(c).multiplyVectorial(p.subtract(c))).scalarProduct(n)<0) {
+            return -1;
         }
         return t;
     }

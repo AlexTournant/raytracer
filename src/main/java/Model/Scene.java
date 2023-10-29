@@ -1,13 +1,24 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Scene {
-    private Camera camera;
-    private Image image;
-    private ArrayList<Color> colors;
-    private ArrayList<IObjetScene> objets = new ArrayList<>();
+    private final Camera camera;
+    private final Image image;
+    private final Map<String,Color> colors;
+    private final Map<IObjetScene, IColorStrategy> objets;
+    private final ArrayList<ILight> lights;
 
+    public Scene(Camera camera, Image image, Map<String, Color> colors, Map<IObjetScene, IColorStrategy> objets, ArrayList<ILight> lights) {
+        this.camera = camera;
+        this.image = image;
+        this.colors = colors;
+        this.objets = objets;
+        this.lights = lights;
+    }
 
     public Camera getCamera() {
         return camera;
@@ -17,27 +28,15 @@ public class Scene {
         return image;
     }
 
-    public ArrayList<Color> getColors() {
+    public Map<String,Color> getColors() {
         return colors;
     }
 
-    public ArrayList<IObjetScene> getObjets() {
+    public Map<IObjetScene, IColorStrategy> getObjets() {
         return objets;
     }
 
-    public void setCamera(Camera camera) {
-        this.camera = camera;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public void setColors(ArrayList<Color> colors) {
-        this.colors = colors;
-    }
-
-    public void setObjets(ArrayList<IObjetScene> objets) {
-        this.objets = objets;
+    public ArrayList<ILight> getLights() {
+        return lights;
     }
 }

@@ -8,13 +8,18 @@ public class PonctualLight implements ILight {
         this.color = color;
         this.position = position;
     }
+    @Override
+    public Point getPosition() {
+        return position;
+    }
 
     @Override
     public Color getColor() {
         return color;
     }
 
-    public Point getPosition() {
-        return position;
+    @Override
+    public Vector getDirection() {
+        return null;
     }
 }

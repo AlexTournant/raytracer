@@ -1,7 +1,6 @@
 package Model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class DimensionPixel {
     private int imgwith;
@@ -35,7 +34,7 @@ public class DimensionPixel {
 
     public static void main(String[] args) throws IOException {
     Parser p=new Parser();
-    p.parse("parser.txt");
+    p.parse("2Sphere.txt");
     DimensionPixel dp= new DimensionPixel(p.getWidth(),p.getHeight(),p.getFov());
 }
 

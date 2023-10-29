@@ -1,11 +1,11 @@
 package Model;
 
-public class Plan implements IObjetScene {
+public class Plan implements IObjetScene{
     private Point origine;
 
     private Vector normal;
 
-    public Plan(Point origine,Vector normal) {
+    public Plan(Point origine, Vector normal) {
         this.origine=origine;
         this.normal=normal.normalize();
     }
@@ -14,31 +14,30 @@ public class Plan implements IObjetScene {
         this.origine = origine;
     }
 
-    public Vector getNormal() {
-        return normal;
-    }
-
     public void setNormal(Vector normal) {
         this.normal = normal;
     }
-
     @Override
     public Point getOrigine() {
         return origine;
     }
 
-    @Override
     public double getRayon() {
         return 0;
     }
 
-    public static double intersection(Point lookFrom, Point q, Vector n, Vector d) {
-        double t = 0;
-        if (d.scalarProduct(n) != 0) {
-            t = ((q.subtract(lookFrom)).scalarProduct(n)) / d.scalarProduct(n);
-            return new Point(d.scalarMultiply(t).add(lookFrom).getTriplet()).getTriplet().length();
+    @Override
+    public double intersection(Point lookFrom, Vector d) {
+        double t ;
+        if (d.scalarProduct(this.normal) != 0) {
+            t=-(lookFrom.subtract(origine).scalarProduct(normal))/(d.scalarProduct(normal));
+            return t;
         }
         return -1;
     }
 
+    @Override
+    public Vector getN(Point p) {
+        return new Vector(this.normal.getTriplet());
+    }
 }

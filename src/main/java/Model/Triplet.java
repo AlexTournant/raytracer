@@ -43,12 +43,8 @@ public class Triplet {
             return new Triplet(getX()*vec.getX(),getY()*vec.getY(),getZ()*vec.getZ());
     }
 
-    public Triplet divide(Triplet vec) {
-        return new Triplet(getX() / vec.getX(), getY() / vec.getY(), getZ() / vec.getZ());
-    }
-
     public double length() {
-        return (double) Math.sqrt(x*x+y*y+z*z);
+        return Math.sqrt(x*x+y*y+z*z);
     }
 
     public Triplet normalize() {
@@ -56,4 +52,15 @@ public class Triplet {
         return new Triplet(getX() / length, getY() / length, getZ() / length);
     }
 
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setZ(double z) {
+        this.z = z;
+    }
 }

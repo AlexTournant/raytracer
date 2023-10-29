@@ -2,7 +2,12 @@ size 640 480
 camera 0 0 4 0 0 0 0 1 0 45
 output sphere5.png
 
-ambient .5 .5 .5
+ambient 1 0.5 0.5
+diffuse 0 0.5 0.5
+specular 0.5 0.5 0.5
 sphere 0 0 0 1
 sphere -.7 .7 0 .6
 sphere .7 .7 0 .6
+
+directional 1 1 1 .6 .7 .7
+point 1 1 1 .4 .3 .3

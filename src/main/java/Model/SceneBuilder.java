@@ -1,40 +1,42 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-public class SceneBuilder {
-    private Camera camera=new Camera(null,null,null,0);
-    private Image image=new Image(600,600,"image.png");
-    private ArrayList<Color> colors=new ArrayList<>();
+public class SceneBuilder implements Builder{
+    private Camera camera;
+    private Image image;
+    private Map<String, Color> colors;
 
-    private ArrayList<IObjetScene> objets = new ArrayList<>();
+    private Map<IObjetScene,IColorStrategy> objets=new LinkedHashMap<>();
+    private ArrayList<ILight> lights;
 
-    public SceneBuilder withCamera(Camera cam) {
+    @Override
+    public void withCamera(Camera cam) {
         this.camera = cam;
-        return this;
     }
-
-    public SceneBuilder withImage(Image img) {
+    @Override
+    public void withImage(Image img) {
         this.image = img;
-        return this;
     }
-
-    public SceneBuilder withColors(ArrayList<Color> colors) {
+    @Override
+    public void withColors(Map<String,Color> colors) {
         this.colors = colors;
-        return this;
     }
 
-    public SceneBuilder withObjets(ArrayList<IObjetScene> objets) {
+    @Override
+    public void withObjets(Map<IObjetScene, IColorStrategy> objets) {
         this.objets = objets;
-        return this;
     }
 
+    @Override
+    public void withLights(ArrayList<ILight> lights){
+        this.lights=lights;
+    }
+    @Override
     public Scene build() {
-        Scene sc=new Scene();
-        sc.setCamera(this.camera);
-        sc.setImage(this.image);
-        sc.setColors(this.colors);
-        sc.setObjets(this.objets);
-        return sc;
+        return new Scene(this.camera,this.image,this.colors,this.objets,this.lights);
     }
 }

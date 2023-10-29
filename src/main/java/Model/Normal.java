@@ -1,21 +1,20 @@
 package Model;
 
 import javax.imageio.ImageIO;
-import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
-import java.awt.Color;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
-public class RayThrower {
+public class Normal implements ICalculStrategy {
     private Scene scene;
     private int imgwidth, imgheight;
-    public RayThrower(Scene scene){
-            this.scene = scene;
-            this.imgwidth = scene.getImage().getImageWidth();
-            this.imgheight = scene.getImage().getImageHeight();
+    public Normal(Scene scene){
+        this.scene = scene;
+        this.imgwidth = scene.getImage().getImageWidth();
+        this.imgheight = scene.getImage().getImageHeight();
     }
 
     public int getImgwidth() {
@@ -29,17 +28,17 @@ public class RayThrower {
     public Scene getScene() {
         return scene;
     }
-//good
+    //good
     public Vector orthonormalW(){
-        Triplet lookFrom = getScene().getCamera().getLookFrom();
-        Triplet lookAt = getScene().getCamera().getLookAt();
-        return new Vector(lookFrom.subtract(lookAt).normalize());
+        Point lookFrom = getScene().getCamera().getLookFrom();
+        Point lookAt = getScene().getCamera().getLookAt();
+        return new Vector(lookFrom.subtract(lookAt).normalize().getTriplet());
     }
 
     public Vector orthonormalU(){
-        Triplet w = orthonormalW().getTriplet();
-        Triplet up = getScene().getCamera().getUp();
-        return new Vector(w.multiplyVectorial(up).normalize());
+        Vector w = orthonormalW();
+        Vector up = getScene().getCamera().getUp();
+        return new Vector(w.multiplyVectorial(up).normalize().getTriplet());
     }
 
     public Vector orthonormalV(){
@@ -47,6 +46,7 @@ public class RayThrower {
         Triplet u=orthonormalU().getTriplet();
         return new Vector(w.multiplyVectorial(u).normalize());
     }
+
 
 
     public double getFovr() {
@@ -81,29 +81,22 @@ public class RayThrower {
         return new Vector(numerator.getTriplet().normalize());
     }
 
-    public void rayTracing()  {
-        Scene scene = this.scene;
-        Intersection intersection = new Intersection();
+    public void rayTracing() throws Exception {
         BufferedImage image = new BufferedImage(this.getImgwidth(), this.getImgheight(), BufferedImage.TYPE_INT_ARGB);
-        double t;
-        java.awt.Color color = new java.awt.Color(0, 0, 0);
-        int noir = color.getRGB();
-        for (int i = 0; i < scene.getImage().getImageWidth(); i++) {
-            for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
-                image.setRGB(i, j, noir);
+        Model.Color colorScene=new Model.Color(0,0,0);
+        for (int i = 0; i < this.getScene().getImage().getImageWidth(); i++) {
+            for (int j = 0; j < this.getScene().getImage().getImageHeight(); j++) {
+                image.setRGB(i, j, convertModelColorToAwtColor(colorScene.getTriplet().getX(),colorScene.getTriplet().getY(),colorScene.getTriplet().getZ()));
             }
         }
-        for (IObjetScene objet : scene.getObjets()) {
-            intersection.setIos(objet);
-            for (int i = 0; i < scene.getImage().getImageWidth(); i++) {
-                for (int j = 0; j < scene.getImage().getImageHeight(); j++) {
-                    Vector d = getD(i, j);
-                    t = intersection.intersection(new Point(scene.getCamera().getLookFrom()), d);
-                    if (t != -1.0) {
-                        Point p = new Point(scene.getCamera().getLookFrom().add((d.getTriplet().scalarMultiply(t))));
-                        Model.Color c = scene.getColors().get(0);
-                        int rgb = convertModelColorToAwtColor(c.getTriplet().getX(), c.getTriplet().getY(), c.getTriplet().getZ());
-                        image.setRGB(scene.getImage().getImageWidth()-i,scene.getImage().getImageHeight()-j, rgb);
+        for (int i = 1; i < this.getScene().getImage().getImageWidth(); i++) {
+            for (int j = 1; j < this.getScene().getImage().getImageHeight(); j++) {
+                Vector d = getD(i, j);
+                for (IObjetScene objet : this.getScene().getObjets().keySet()) {
+                    if (objet.intersection(this.getScene().getCamera().getLookFrom(), d) != -1.0) {
+                        Model.Color col = getScene().getColors().get("ambient");
+                        int rgb = convertModelColorToAwtColor(col.getTriplet().getX(), col.getTriplet().getY(), col.getTriplet().getZ());
+                        image.setRGB(this.getScene().getImage().getImageWidth() - i, this.getScene().getImage().getImageHeight() - j, rgb);
                     }
                 }
             }
@@ -113,11 +106,12 @@ public class RayThrower {
                 e.printStackTrace();
             }
         }
-    }
+        }
     public int convertModelColorToAwtColor(double r, double g, double b) {
         int red = (int) (r * 255);
         int green = (int) (g * 255);
         int blue = (int) (b * 255);
+
 
         return new java.awt.Color(red, green, blue).getRGB();
     }

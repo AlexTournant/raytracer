@@ -1,27 +1,28 @@
 package Model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
+        String[] fileName = args;
         ArrayList<String> files=new ArrayList<>();
-        files.add("mickey.txt");
-        files.add("2Sphere.txt");
+        files.add("mystere1.txt");
+        files.add("mystere2.txt");
+        files.add("mystere3.txt");
+        //for (String file:fileName){
         for (String file:files){
             Parser p=new Parser();
             p.parse(file);
-            p.addCamera();
-            p.addImage();
-            ArrayList<IObjetScene> listObjetScene = new ArrayList<>();
-            listObjetScene.addAll(p.getSpheres());
-            listObjetScene.addAll(p.getTriangles());
-            listObjetScene.addAll(p.getPlans());
-            SceneBuilder sb = new SceneBuilder().withCamera(p.getCameras().get(0)).withColors(p.getColors()).withObjets(listObjetScene).withImage(p.getImage().get(0));
-            Scene scene = sb.build();
-            RayThrower rt = new RayThrower(scene);
-            rt.rayTracing();
+            Scene scene = p.getSb().build();
+            if(!scene.getLights().isEmpty()) {
+                ICalculStrategy IC=new Lambert(scene);
+                IC.rayTracing();
+            }
+            else{
+                ICalculStrategy IC=new Normal(scene);
+                IC.rayTracing();
+            }
         }
     }
 
