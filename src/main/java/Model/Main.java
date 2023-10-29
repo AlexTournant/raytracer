@@ -1,6 +1,5 @@
 package Model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
@@ -15,11 +14,11 @@ public class Main {
             p.parse(file);
             Scene scene = p.getSb().build();
             if(!scene.getLights().isEmpty()) {
-                ICalcul IC=new Lambert(scene);
+                ICalculStrategy IC=new Lambert(scene);
                 IC.rayTracing();
             }
             else{
-                ICalcul IC=new Normal(scene);
+                ICalculStrategy IC=new Normal(scene);
                 IC.rayTracing();
             }
         }

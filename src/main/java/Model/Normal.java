@@ -1,19 +1,14 @@
 package Model;
 
 import javax.imageio.ImageIO;
-import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
-public class Normal implements ICalcul {
+public class Normal implements ICalculStrategy {
     private Scene scene;
     private int imgwidth, imgheight;
     public Normal(Scene scene){
