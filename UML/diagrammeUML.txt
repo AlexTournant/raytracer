@@ -1,0 +1,387 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class ActivateShadows {
+  + ActivateShadows(): 
+  + activateShadows(Shadow): void
+}
+interface Builder << interface >> {
+  + withObjets(Map<IObjetScene, IColorStrategy>): void
+  + build(): Scene
+  + withColors(Map<String, Color>): void
+  + withCamera(Camera): void
+  + withLights(ArrayList<ILight>): void
+  + withImage(Image): void
+}
+class Camera {
+  + Camera(Point, Point, Vector, int): 
+  - lookFrom: Point
+  - lookAt: Point
+  - up: Vector
+  - fov: int
+   up: Vector
+   lookFrom: Point
+   lookAt: Point
+   fov: int
+}
+class Color {
+  + Color(double, double, double): 
+  + Color(Triplet): 
+  - triplet: Triplet
+  + shurProduct(Color): Color
+  + scalarMultiply(double): Color
+  + add(Color): Color
+   triplet: Triplet
+}
+class ColorDamier {
+  + ColorDamier(Color, Color, int): 
+  + getColor(int, int): Color
+}
+class ColorUnie {
+  + ColorUnie(Color): 
+  + getColor(int, int): Color
+}
+class DeactivateShadows {
+  + DeactivateShadows(): 
+  + activateShadows(Shadow): void
+}
+class DirectionalLight {
+  + DirectionalLight(Color, Vector): 
+  - color: Color
+  - direction: Vector
+   position: Point
+   color: Color
+   direction: Vector
+}
+interface ICalculStrategy << interface >> {
+  + rayTracing(): void
+}
+interface IColorStrategy << interface >> {
+  + getColor(int, int): Color
+}
+interface ILight << interface >> {
+   position: Point
+   color: Color
+   direction: Vector
+}
+interface IObjetScene << interface >> {
+  + intersection(Point, Vector): double
+  + getN(Point): Vector
+   origine: Point
+}
+interface IShadowState << interface >> {
+  + activateShadows(Shadow): void
+}
+class Image {
+  + Image(int, int, String): 
+  - ImageName: String
+  - ImageHeight: int
+  - ImageWidth: int
+   imageName: String
+   imageHeight: int
+   imageWidth: int
+}
+class Lambert {
+  + Lambert(Scene): 
+  - imgwidth: int
+  - imgheight: int
+  - scene: Scene
+  + orthonormalW(): Vector
+  + orthonormalU(): Vector
+  + convertModelColorToAwtColor(double, double, double): int
+  + getCol(Point, IObjetScene, int, int): Color
+  + rayTracing(): void
+  + orthonormalV(): Vector
+  + plusProche(Map<IObjetScene, Double>): Map<IObjetScene, Double>
+  + sumColor(IObjetScene, Point): Color
+  + getD(int, int): Vector
+   scene: Scene
+   fovr: double
+   realHeight: double
+   realWidth: double
+   imgheight: int
+   pixelHeight: double
+   imgwidth: int
+   pixelWidth: double
+}
+class Main {
+  + Main(): 
+  + main(String[]): void
+}
+class Normal {
+  + Normal(Scene): 
+  - imgheight: int
+  - scene: Scene
+  - imgwidth: int
+  + getD(int, int): Vector
+  + orthonormalV(): Vector
+  + orthonormalU(): Vector
+  + convertModelColorToAwtColor(double, double, double): int
+  + orthonormalW(): Vector
+  + rayTracing(): void
+   scene: Scene
+   fovr: double
+   realHeight: double
+   realWidth: double
+   imgheight: int
+   pixelHeight: double
+   imgwidth: int
+   pixelWidth: double
+}
+class Parser {
+  + Parser(): 
+  - colorDamier: ColorDamier
+  - colors: Map<String, Color>
+  - occ: int
+  - diffuse: Map<IObjetScene, IColorStrategy>
+  - shadowOn: boolean
+  - height: int
+  - nomImage: String
+  - taille: int
+  - cameras: ArrayList<Camera>
+  - image: ArrayList<Image>
+  - maxvert: int
+  - listLights: ArrayList<ILight>
+  - check: boolean
+  - width: int
+  - plans: ArrayList<Plan>
+  - points: Point[]
+  - fov: int
+  - triangles: ArrayList<Triangle>
+  - spheres: ArrayList<Sphere>
+  + parse(String): void
+  + init(): void
+  + setOcc(): void
+  + setPoints(int): void
+   sb: SceneBuilder
+   taille: int
+   nomImage: String
+   cameras: ArrayList<Camera>
+   listLights: ArrayList<ILight>
+   width: int
+   fov: int
+   occ: int
+   maxvert: int
+   colors: Map<String, Color>
+   plans: ArrayList<Plan>
+   colorDamier: ColorDamier
+   spheres: ArrayList<Sphere>
+   shadowOn: boolean
+   TCamera: ArrayList<Triplet>
+   points: Point[]
+   triangles: ArrayList<Triangle>
+   image: ArrayList<Image>
+   diffuse: Map<IObjetScene, IColorStrategy>
+   camera: Camera
+   check: boolean
+   height: int
+}
+class Plan {
+  + Plan(Point, Vector): 
+  - origine: Point
+  - normal: Vector
+  + getN(Point): Vector
+  + intersection(Point, Vector): double
+   origine: Point
+   rayon: double
+   normal: Vector
+}
+class Point {
+  + Point(double, double, double): 
+  + Point(Triplet): 
+  - triplet: Triplet
+  + subtract(Point): Vector
+  + scalarMultiply(double): Point
+   triplet: Triplet
+}
+class PonctualLight {
+  + PonctualLight(Color, Point): 
+  - color: Color
+  - position: Point
+   position: Point
+   color: Color
+   direction: Vector
+}
+class Scene {
+  + Scene(Camera, Image, Map<String, Color>, Map<IObjetScene, IColorStrategy>, ArrayList<ILight>): 
+  - camera: Camera
+  - colors: Map<String, Color>
+  - image: Image
+  - objets: Map<IObjetScene, IColorStrategy>
+  - lights: ArrayList<ILight>
+   image: Image
+   objets: Map<IObjetScene, IColorStrategy>
+   camera: Camera
+   colors: Map<String, Color>
+   lights: ArrayList<ILight>
+}
+class SceneBuilder {
+  + SceneBuilder(): 
+  + build(): Scene
+  + withColors(Map<String, Color>): void
+  + withLights(ArrayList<ILight>): void
+  + withImage(Image): void
+  + withObjets(Map<IObjetScene, IColorStrategy>): void
+  + withCamera(Camera): void
+}
+class Shadow {
+  + Shadow(): 
+  - state: IShadowState
+  + handle(): void
+   state: IShadowState
+}
+class Sphere {
+  + Sphere(Point, double): 
+  - color: Color
+  - origine: Point
+  - ray: double
+  + getN(Point): Vector
+  + setOrigine(Point): void
+   color: Color
+   circumference: double
+   diameter: double
+   ray: double
+   origine: Point
+   volume: double
+}
+class Triangle {
+  + Triangle(Point, Point, Point): 
+  - c: Point
+  - b: Point
+  - origine: Point
+  + intersection(Point, Vector): double
+  + getN(Point): Vector
+   b: Point
+   c: Point
+   rayon: double
+   distanceAB: double
+   distanceBC: double
+   origine: Point
+   distanceAC: double
+}
+class Triplet {
+  + Triplet(double, double, double): 
+  - x: double
+  - y: double
+  - z: double
+  + length(): double
+  + scalarMultiply(double): Triplet
+  + add(Triplet): Triplet
+  + multiplyVectorial(Triplet): Triplet
+  + scalarProduct(Triplet): double
+  + shurProduct(Triplet): Triplet
+  + subtract(Triplet): Triplet
+  + normalize(): Triplet
+   y: double
+   z: double
+   x: double
+}
+class Vector {
+  + Vector(Triplet): 
+  + Vector(double, double, double): 
+  - triplet: Triplet
+  + length(): double
+  + normalize(): Vector
+  + scalarMultiply(double): Vector
+  + add(Point): Point
+  + subtract(Vector): Vector
+  + scalarProduct(Vector): double
+  + add(Vector): Vector
+  + multiplyVectorial(Vector): Vector
+   triplet: Triplet
+}
+
+ActivateShadows    -[#595959,dashed]->  DeactivateShadows : "«create»"
+ActivateShadows    -[#008200,dashed]-^  IShadowState      
+Camera            "1" *-[#595959,plain]-> "lookFrom\n1" Point             
+Camera            "1" *-[#595959,plain]-> "up\n1" Vector            
+Color              -[#595959,dashed]->  Triplet           : "«create»"
+Color             "1" *-[#595959,plain]-> "triplet\n1" Triplet           
+ColorDamier       "1" *-[#595959,plain]-> "color1\n1" Color             
+ColorDamier        -[#008200,dashed]-^  IColorStrategy    
+ColorUnie         "1" *-[#595959,plain]-> "color\n1" Color             
+ColorUnie          -[#008200,dashed]-^  IColorStrategy    
+DeactivateShadows  -[#595959,dashed]->  ActivateShadows   : "«create»"
+DeactivateShadows  -[#008200,dashed]-^  IShadowState      
+DirectionalLight  "1" *-[#595959,plain]-> "color\n1" Color             
+DirectionalLight   -[#008200,dashed]-^  ILight            
+DirectionalLight  "1" *-[#595959,plain]-> "direction\n1" Vector            
+Lambert            -[#595959,dashed]->  Color             : "«create»"
+Lambert            -[#008200,dashed]-^  ICalculStrategy   
+Lambert            -[#595959,dashed]->  Point             : "«create»"
+Lambert           "1" *-[#595959,plain]-> "scene\n1" Scene             
+Lambert            -[#595959,dashed]->  Vector            : "«create»"
+Main               -[#595959,dashed]->  Lambert           : "«create»"
+Main               -[#595959,dashed]->  Normal            : "«create»"
+Main               -[#595959,dashed]->  Parser            : "«create»"
+Normal             -[#595959,dashed]->  Color             : "«create»"
+Normal             -[#008200,dashed]-^  ICalculStrategy   
+Normal            "1" *-[#595959,plain]-> "scene\n1" Scene             
+Normal             -[#595959,dashed]->  Vector            : "«create»"
+Parser             -[#595959,dashed]->  Camera            : "«create»"
+Parser            "1" *-[#595959,plain]-> "cameras\n*" Camera            
+Parser            "1" *-[#595959,plain]-> "colors\n*" Color             
+Parser             -[#595959,dashed]->  Color             : "«create»"
+Parser            "1" *-[#595959,plain]-> "colorDamier\n1" ColorDamier       
+Parser             -[#595959,dashed]->  ColorDamier       : "«create»"
+Parser             -[#595959,dashed]->  ColorUnie         : "«create»"
+Parser             -[#595959,dashed]->  DirectionalLight  : "«create»"
+Parser            "1" *-[#595959,plain]-> "diffuse\n*" IColorStrategy    
+Parser            "1" *-[#595959,plain]-> "listLights\n*" ILight            
+Parser            "1" *-[#595959,plain]-> "diffuse\n*" IObjetScene       
+Parser            "1" *-[#595959,plain]-> "image\n*" Image             
+Parser             -[#595959,dashed]->  Image             : "«create»"
+Parser             -[#595959,dashed]->  Plan              : "«create»"
+Parser            "1" *-[#595959,plain]-> "plans\n*" Plan              
+Parser             -[#595959,dashed]->  Point             : "«create»"
+Parser            "1" *-[#595959,plain]-> "points\n*" Point             
+Parser             -[#595959,dashed]->  PonctualLight     : "«create»"
+Parser             -[#595959,dashed]->  SceneBuilder      : "«create»"
+Parser            "1" *-[#595959,plain]-> "sceneBuild\n1" SceneBuilder      
+Parser            "1" *-[#595959,plain]-> "spheres\n*" Sphere            
+Parser             -[#595959,dashed]->  Sphere            : "«create»"
+Parser            "1" *-[#595959,plain]-> "triangles\n*" Triangle          
+Parser             -[#595959,dashed]->  Triangle          : "«create»"
+Parser             -[#595959,dashed]->  Triplet           : "«create»"
+Parser            "1" *-[#595959,plain]-> "tCamera\n*" Triplet           
+Parser             -[#595959,dashed]->  Vector            : "«create»"
+Plan               -[#008200,dashed]-^  IObjetScene       
+Plan              "1" *-[#595959,plain]-> "origine\n1" Point             
+Plan              "1" *-[#595959,plain]-> "normal\n1" Vector            
+Plan               -[#595959,dashed]->  Vector            : "«create»"
+Point             "1" *-[#595959,plain]-> "triplet\n1" Triplet           
+Point              -[#595959,dashed]->  Triplet           : "«create»"
+Point              -[#595959,dashed]->  Vector            : "«create»"
+PonctualLight     "1" *-[#595959,plain]-> "color\n1" Color             
+PonctualLight      -[#008200,dashed]-^  ILight            
+PonctualLight     "1" *-[#595959,plain]-> "position\n1" Point             
+Scene             "1" *-[#595959,plain]-> "camera\n1" Camera            
+Scene             "1" *-[#595959,plain]-> "colors\n*" Color             
+Scene             "1" *-[#595959,plain]-> "objets\n*" IColorStrategy    
+Scene             "1" *-[#595959,plain]-> "lights\n*" ILight            
+Scene             "1" *-[#595959,plain]-> "objets\n*" IObjetScene       
+Scene             "1" *-[#595959,plain]-> "image\n1" Image             
+SceneBuilder       -[#008200,dashed]-^  Builder           
+SceneBuilder      "1" *-[#595959,plain]-> "camera\n1" Camera            
+SceneBuilder      "1" *-[#595959,plain]-> "colors\n*" Color             
+SceneBuilder      "1" *-[#595959,plain]-> "objets\n*" IColorStrategy    
+SceneBuilder      "1" *-[#595959,plain]-> "lights\n*" ILight            
+SceneBuilder      "1" *-[#595959,plain]-> "objets\n*" IObjetScene       
+SceneBuilder      "1" *-[#595959,plain]-> "image\n1" Image             
+SceneBuilder       -[#595959,dashed]->  Scene             : "«create»"
+Shadow             -[#595959,dashed]->  DeactivateShadows : "«create»"
+Shadow            "1" *-[#595959,plain]-> "state\n1" IShadowState      
+Sphere            "1" *-[#595959,plain]-> "color\n1" Color             
+Sphere             -[#008200,dashed]-^  IObjetScene       
+Sphere            "1" *-[#595959,plain]-> "origine\n1" Point             
+Triangle           -[#008200,dashed]-^  IObjetScene       
+Triangle           -[#595959,dashed]->  Plan              : "«create»"
+Triangle          "1" *-[#595959,plain]-> "origine\n1" Point             
+Triangle           -[#595959,dashed]->  Vector            : "«create»"
+Vector             -[#595959,dashed]->  Point             : "«create»"
+Vector             -[#595959,dashed]->  Triplet           : "«create»"
+Vector            "1" *-[#595959,plain]-> "triplet\n1" Triplet           
+@enduml
