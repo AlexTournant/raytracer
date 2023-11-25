@@ -24,7 +24,6 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
         // Iterate through the input files and process each scene.
-        System.out.println(args);
         for (String file : args) {
             // Parse the scene description from the input file.
             Parser parser = new Parser();

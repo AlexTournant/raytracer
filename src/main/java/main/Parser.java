@@ -451,94 +451,76 @@ public class Parser {
             FileReader fr = new FileReader(file);
             // Create the BufferedReader
             BufferedReader br = new BufferedReader(fr);
-            StringBuffer sb = new StringBuffer();
             String line;
             while ((line = br.readLine()) != null) {
-                // add the line to the buffer
-                String[]str=(line.split("\n"));
-                if(!str[0].equals("#")) {
-                    sb.append(line);
-                    sb.append("\n");
+                String[] ligne=line.split(" ");
+                switch (ligne[0]) {
+                    case "shadow"->
+                            setShadowOn(Boolean.parseBoolean(ligne[1]));
+                    case "checker"-> {
+                        setCheck(true);
+                        setColorDamier(new ColorDamier(new Color(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])), new Color(Double.parseDouble(ligne[4]), Double.parseDouble(ligne[5]), Double.parseDouble(ligne[6])),Integer.parseInt(ligne[7])));
+                    }
+                    case "size" -> {
+                        setWidth(Integer.parseInt(ligne[1]));
+                        setHeight(Integer.parseInt(ligne[2]));
+                    }
+                    case "output" -> setNomImage((ligne[1]));
+                    case "camera" -> {
+                        getTCamera().add(new Triplet(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])));
+                        getTCamera().add(new Triplet(Double.parseDouble(ligne[4]), Double.parseDouble(ligne[5]), Double.parseDouble(ligne[6])));
+                        getTCamera().add(new Triplet(Double.parseDouble(ligne[7]), Double.parseDouble(ligne[8]), Double.parseDouble(ligne[9])));
+                        setFov(Integer.parseInt(ligne[10]));
+                    }
+                    case "ambient" ->
+                            getColors().put(ligne[0],new Color(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])));
+                    case "diffuse" -> {
+                        if (getColors().containsKey(ligne[0])) {
+                            getColors().replace(ligne[0], new Color(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])));
+                        }
+                        else {
+                            getColors().put(ligne[0], new Color(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])));
+                        }
+                    }
+                    case "specular" -> {
+                        if(getColors().containsKey(ligne[0])) {
+                            getColors().replace(ligne[0], new Color(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])));
+                        }
+                        else{
+                            getColors().put(ligne[0], new Color(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])));
+                        }
+                    }
+                    case "shininess" ->System.out.println("la");
+                    //getColors().get("specular").scalarMultiply(Integer.parseInt(ligne[0.);
+                    case "directional" ->
+                            getListLights().add(new DirectionalLight(new Color(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])), new Vector(Double.parseDouble(ligne[4]), Double.parseDouble(ligne[5]), Double.parseDouble(ligne[6]))));
+                    case "point" ->
+                            getListLights().add(new PonctualLight(new Color(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])), new Point(Double.parseDouble(ligne[4]),Double.parseDouble(ligne[5]), Double.parseDouble(ligne[6]))));
+                    case "maxverts" ->
+                            setPoints(Integer.parseInt(ligne[1]));
+                    case "vertex" -> {
+                        getPoints()[getOcc()] = new Point(Double.parseDouble(ligne[1]),Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3]));
+                        setOcc();
+
+                    }
+                    case "tri" ->
+                            diffuse.put( new Triangle(getPoints()[Integer.parseInt(ligne[1])], getPoints()[Integer.parseInt(ligne[2])], getPoints()[Integer.parseInt(ligne[3])]), new ColorUnie(colors.get("diffuse")));
+                    case "sphere" ->
+                            diffuse.put(new Sphere(new Point(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])), Double.parseDouble(ligne[4])),new ColorUnie(colors.get("diffuse")));
+                    case "plane" -> {
+                        if(isCheck()) {
+                            diffuse.put(new Plan(new Point(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])), new Vector(Integer.parseInt(ligne[4]), Integer.parseInt(ligne[5]), Integer.parseInt(ligne[6]))),getColorDamier());
+                            setCheck(false);
+                        }
+                        else {
+                            diffuse.put(new Plan(new Point(Double.parseDouble(ligne[1]), Double.parseDouble(ligne[2]), Double.parseDouble(ligne[3])), new Vector(Integer.parseInt(ligne[4]), Integer.parseInt(ligne[5]), Integer.parseInt(ligne[6]))),new ColorUnie(colors.get("diffuse")));
+                        }
+                    }
                 }
+
             }
             fr.close();
-            // Convert the StringBuffer to a String
-            String str = sb.toString();
-            // Split the string into an array of words using space as the delimiter
-            String[] words = str.split("\n");
-            for (String word : words) {
-                String[] a = word.split(" ");
-                ArrayList<Object> tab=new ArrayList<>();
-                if (a.length>1) {
-                    String mot = a[0];
-                    for (int i = 1; i < a.length; i++) {
-                        tab.add(a[i]);
-                    }
-                    switch (mot) {
-                        case "shadow"->
-                            setShadowOn(Boolean.parseBoolean(tab.get(0).toString()));
-                        case "checker"-> {
-                            setCheck(true);
-                            setColorDamier(new ColorDamier(new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), new Color(Double.parseDouble(tab.get(3).toString()), Double.parseDouble(tab.get(4).toString()), Double.parseDouble(tab.get(5).toString())),Integer.parseInt(tab.get(6).toString())));
-                        }
-                        case "size" -> {
-                            setWidth(Integer.parseInt(tab.get(0).toString()));
-                            setHeight(Integer.parseInt(tab.get(1).toString()));
-                        }
-                        case "output" -> setNomImage((String) tab.get(0));
-                        case "camera" -> {
-                            getTCamera().add(new Triplet(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
-                            getTCamera().add(new Triplet(Double.parseDouble(tab.get(3).toString()), Double.parseDouble(tab.get(4).toString()), Double.parseDouble(tab.get(5).toString())));
-                            getTCamera().add(new Triplet(Double.parseDouble(tab.get(6).toString()), Double.parseDouble(tab.get(7).toString()), Double.parseDouble(tab.get(7).toString())));
-                            setFov(Integer.parseInt(tab.get(9).toString()));
-                        }
-                        case "ambient" ->
-                                getColors().put(mot,new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
-                        case "diffuse" -> {
-                            if (getColors().containsKey(mot)) {
-                                getColors().replace(mot, new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
-                            }
-                            else {
-                                getColors().put(mot, new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
-                            }
-                        }
-                        case "specular" -> {
-                            if(getColors().containsKey(mot)) {
-                                getColors().replace(mot, new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
-                            }
-                            else{
-                                getColors().put(mot, new Color(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())));
-                            }
-                        }
-                        case "shininess" ->System.out.println("la");
-                        //getColors().get("specular").scalarMultiply(Integer.parseInt(tab.get(0).toString()));
-                        case "directional" ->
-                                getListLights().add(new DirectionalLight(new Color(Double.parseDouble(tab.get(3).toString()), Double.parseDouble(tab.get(4).toString()), Double.parseDouble(tab.get(5).toString())), new Vector(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString()))));
-                        case "point" ->
-                                getListLights().add(new PonctualLight(new Color(Double.parseDouble(tab.get(3).toString()), Double.parseDouble(tab.get(4).toString()), Double.parseDouble(tab.get(5).toString())), new Point(Double.parseDouble(tab.get(0).toString()),Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString()))));
-                        case "maxverts" ->
-                                setPoints(Integer.parseInt(tab.get(0).toString()));
-                        case "vertex" -> {
-                            getPoints()[getOcc()] = new Point(Double.parseDouble(tab.get(0).toString()),Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString()));
-                            setOcc();
-
-                        }
-                        case "tri" ->
-                            diffuse.put( new Triangle(getPoints()[Integer.parseInt(tab.get(0).toString())], getPoints()[Integer.parseInt(tab.get(1).toString())], getPoints()[Integer.parseInt(tab.get(2).toString())]), new ColorUnie(colors.get("diffuse")));
-                        case "sphere" ->
-                            diffuse.put(new Sphere(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), Double.parseDouble(tab.get(3).toString())),new ColorUnie(colors.get("diffuse")));
-                        case "plane" -> {
-                            if(isCheck()) {
-                                diffuse.put(new Plan(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), new Vector(Integer.parseInt(tab.get(3).toString()), Integer.parseInt(tab.get(4).toString()), Integer.parseInt(tab.get(5).toString()))),getColorDamier());
-                                setCheck(false);
-                            }
-                            else {
-                                diffuse.put(new Plan(new Point(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString())), new Vector(Integer.parseInt(tab.get(3).toString()), Integer.parseInt(tab.get(4).toString()), Integer.parseInt(tab.get(5).toString()))),new ColorUnie(colors.get("diffuse")));
-                            }
-                        }
-                    }
-                }
-            }
+            br.close();
             getSb().withLights(getListLights());
             getSb().withCamera(getCamera());
             getSb().withColors(getColors());
