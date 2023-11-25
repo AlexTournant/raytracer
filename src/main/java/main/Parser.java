@@ -1,27 +1,20 @@
 package main;
-
 import affichage.Camera;
 import affichage.Image;
-import color.ColorDamier;
-import color.ColorUnie;
-import color.IColorStrategy;
 import light.DirectionalLight;
 import light.ILight;
 import light.PonctualLight;
+import triplet.Color;
 import objets.IObjetScene;
 import objets.Plan;
 import objets.Sphere;
 import objets.Triangle;
 import scene.SceneBuilder;
-import triplet.Color;
-import triplet.Point;
 import triplet.Triplet;
+import triplet.Point;
 import triplet.Vector;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import color.*;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -30,7 +23,7 @@ import java.util.*;
  */
 public class Parser {
     private int occ = 0; // Counter for tracking occurrences
-    private SceneBuilder sceneBuild = new SceneBuilder(); // SceneBuilder instance
+    private SceneBuilder sb = new SceneBuilder(); // SceneBuilder instance
     private int height; // Height of the scene
     private int width; // Width of the scene
     private boolean shadowOn; // Whether shadows are enabled
@@ -38,31 +31,32 @@ public class Parser {
     private String nomImage; // Name of the output image
 
     private ColorDamier colorDamier; // Checker pattern colors
-    private List<Triplet> tCamera = new ArrayList<>(); // Camera parameters
+    private ArrayList<Triplet> TCamera = new ArrayList<>(); // Camera parameters
 
-    private List<Camera> cameras = new ArrayList<>(); // List of cameras
+    private ArrayList<Camera> cameras = new ArrayList<>(); // List of cameras
     private int fov; // Field of view
     private Map<String, Color> colors = new LinkedHashMap<>(); // Colors
 
-    private List<Image> image = new ArrayList<>(); // Images
+    private ArrayList<Image> image = new ArrayList<>(); // Images
     private int maxvert; // Maximum number of vertices
     private Point[] points; // Array of points
-    private List<Triangle> triangles = new ArrayList<>(); // List of triangles
+    private ArrayList<Triangle> triangles = new ArrayList<>(); // List of triangles
 
-    private List<Sphere> spheres = new ArrayList<>(); // List of spheres
-    private List<Plan> plans = new ArrayList<>(); // List of planes
+    private ArrayList<Sphere> spheres = new ArrayList<>(); // List of spheres
+    private ArrayList<Plan> plans = new ArrayList<>(); // List of planes
 
     private Map<IObjetScene, IColorStrategy> diffuse = new LinkedHashMap<>(); // Objects and their colors
 
-    private List<ILight> listLights = new ArrayList<>(); // List of lights
+    private ArrayList<ILight> listLights = new ArrayList<>(); // List of lights
     private boolean check; // Flag for checker pattern
+
     /**
      * Get the SceneBuilder instance created by this parser.
      *
      * @return The SceneBuilder instance.
      */
     public SceneBuilder getSb() {
-        return sceneBuild;
+        return sb;
     }
 
     /**
@@ -140,7 +134,7 @@ public class Parser {
      *
      * @return The list of lights.
      */
-    public List<ILight> getListLights() {
+    public ArrayList<ILight> getListLights() {
         return listLights;
     }
 
@@ -149,7 +143,7 @@ public class Parser {
      *
      * @param listLights The list of lights to set.
      */
-    public void setListLights(List<ILight> listLights) {
+    public void setListLights(ArrayList<ILight> listLights) {
         this.listLights = listLights;
     }
 
@@ -230,8 +224,8 @@ public class Parser {
      *
      * @return The list of camera configurations.
      */
-    public List<Triplet> getTCamera() {
-        return tCamera;
+    public ArrayList<Triplet> getTCamera() {
+        return TCamera;
     }
 
     /**
@@ -239,7 +233,7 @@ public class Parser {
      *
      * @return The list of image configurations.
      */
-    public List<Image> getImage() {
+    public ArrayList<Image> getImage() {
         return image;
     }
 
@@ -248,7 +242,7 @@ public class Parser {
      *
      * @param image The list of image configurations to set.
      */
-    public void setImage(List<Image> image) {
+    public void setImage(ArrayList<Image> image) {
         this.image = image;
     }
 
@@ -311,7 +305,7 @@ public class Parser {
      *
      * @return The list of Triangle objects.
      */
-    public List<Triangle> getTriangles() {
+    public ArrayList<Triangle> getTriangles() {
         return triangles;
     }
 
@@ -320,7 +314,7 @@ public class Parser {
      *
      * @return The list of Sphere objects.
      */
-    public List<Sphere> getSpheres() {
+    public ArrayList<Sphere> getSpheres() {
         return spheres;
     }
 
@@ -329,7 +323,7 @@ public class Parser {
      *
      * @return The list of Plan objects.
      */
-    public List<Plan> getPlans() {
+    public ArrayList<Plan> getPlans() {
         return plans;
     }
 
@@ -354,10 +348,10 @@ public class Parser {
     /**
      * Set the list of camera configurations based on Triplets.
      *
-     * @param tCamera The list of camera configurations to set.
+     * @param TCamera The list of camera configurations to set.
      */
-    public void setTCamera(List<Triplet> tCamera) {
-        this.tCamera = tCamera;
+    public void setTCamera(ArrayList<Triplet> TCamera) {
+        this.TCamera = TCamera;
     }
 
     /**
@@ -365,7 +359,7 @@ public class Parser {
      *
      * @return The list of Camera objects.
      */
-    public List<Camera> getCameras() {
+    public ArrayList<Camera> getCameras() {
         return cameras;
     }
 
@@ -374,7 +368,7 @@ public class Parser {
      *
      * @param cameras The list of Camera objects to set.
      */
-    public void setCameras(List<Camera> cameras) {
+    public void setCameras(ArrayList<Camera> cameras) {
         this.cameras = cameras;
     }
 
@@ -392,7 +386,7 @@ public class Parser {
      *
      * @param triangles The list of Triangle objects to set.
      */
-    public void setTriangles(List<Triangle> triangles) {
+    public void setTriangles(ArrayList<Triangle> triangles) {
         this.triangles = triangles;
     }
 
@@ -401,7 +395,7 @@ public class Parser {
      *
      * @param spheres The list of Sphere objects to set.
      */
-    public void setSpheres(List<Sphere> spheres) {
+    public void setSpheres(ArrayList<Sphere> spheres) {
         this.spheres = spheres;
     }
 
@@ -410,7 +404,7 @@ public class Parser {
      *
      * @param plans The list of Plan objects to set.
      */
-    public void setPlans(List<Plan> plans) {
+    public void setPlans(ArrayList<Plan> plans) {
         this.plans = plans;
     }
 
@@ -457,7 +451,7 @@ public class Parser {
             FileReader fr = new FileReader(file);
             // Create the BufferedReader
             BufferedReader br = new BufferedReader(fr);
-            StringBuilder sb = new StringBuilder();
+            StringBuffer sb = new StringBuffer();
             String line;
             while ((line = br.readLine()) != null) {
                 // add the line to the buffer
@@ -474,9 +468,12 @@ public class Parser {
             String[] words = str.split("\n");
             for (String word : words) {
                 String[] a = word.split(" ");
+                ArrayList<Object> tab=new ArrayList<>();
                 if (a.length>1) {
                     String mot = a[0];
-                    ArrayList<Object> tab = new ArrayList<>(Arrays.asList(a).subList(1, a.length));
+                    for (int i = 1; i < a.length; i++) {
+                        tab.add(a[i]);
+                    }
                     switch (mot) {
                         case "shadow"->
                             setShadowOn(Boolean.parseBoolean(tab.get(0).toString()));
@@ -514,7 +511,7 @@ public class Parser {
                             }
                         }
                         case "shininess" ->System.out.println("la");
-
+                        //getColors().get("specular").scalarMultiply(Integer.parseInt(tab.get(0).toString()));
                         case "directional" ->
                                 getListLights().add(new DirectionalLight(new Color(Double.parseDouble(tab.get(3).toString()), Double.parseDouble(tab.get(4).toString()), Double.parseDouble(tab.get(5).toString())), new Vector(Double.parseDouble(tab.get(0).toString()), Double.parseDouble(tab.get(1).toString()), Double.parseDouble(tab.get(2).toString()))));
                         case "point" ->
@@ -549,7 +546,7 @@ public class Parser {
             getSb().withObjets(getDiffuse());
         } catch (FileNotFoundException e){
             e.printStackTrace();
-            System.out.println("Erreur");
+            System.out.println("erreur");
 
         }
     }

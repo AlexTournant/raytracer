@@ -77,9 +77,9 @@ public class Triangle implements IObjetScene {
      * @return The distance between the origin and the second point.
      */
     public double getDistanceAB() {
-        return Math.sqrt(   Math.pow((getB().getTriplet().getX()) - getOrigine().getTriplet().getX(), 2) +
+        return Math.sqrt(   Math.pow(((getB().getTriplet().getX()) - getOrigine().getTriplet().getX()), 2)) +
                             Math.pow((getB().getTriplet().getY() - getOrigine().getTriplet().getY()), 2) +
-                            Math.pow((getB().getTriplet().getZ() - getOrigine().getTriplet().getZ()), 2));
+                            Math.pow((getB().getTriplet().getZ() - getOrigine().getTriplet().getZ()), 2);
     }
 
     /**
@@ -144,17 +144,13 @@ public class Triangle implements IObjetScene {
      */
     @Override
     public double intersection(Point lookFrom, Vector d) {
-        Vector n = this.getB().subtract(getOrigine()).multiplyVectorial(this.getC().subtract(this.getOrigine()));
-        Plan q=new Plan(getOrigine(),n);
+        Vector n = b.subtract(origine).multiplyVectorial(c.subtract(origine));
+        Plan q=new Plan(origine,n);
         double t = q.intersection(lookFrom,d);
         Point p=d.scalarMultiply(t).add(lookFrom);
-        if((b.subtract(origine).multiplyVectorial(p.subtract(origine))).scalarProduct(n)<0){
-            return -1;
-        }
-        if ((c.subtract(b).multiplyVectorial(p.subtract(b))).scalarProduct(n)<0) {
-            return -1;
-        }
-        if ((origine.subtract(c).multiplyVectorial(p.subtract(c))).scalarProduct(n)<0) {
+        if((b.subtract(origine).multiplyVectorial(p.subtract(origine)).scalarProduct(n))<0 ||
+                (c.subtract(b).multiplyVectorial(p.subtract(b)).scalarProduct(n))<0 ||
+                (origine.subtract(c).multiplyVectorial(p.subtract(c)).scalarProduct(n))<0) {
             return -1;
         }
         return t;

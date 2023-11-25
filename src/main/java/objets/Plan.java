@@ -22,24 +22,6 @@ public class Plan implements IObjetScene {
     }
 
     /**
-     * Set the origin point of the plan.
-     *
-     * @param origine The origin point to set.
-     */
-    public void setOrigine(Point origine) {
-        this.origine = origine;
-    }
-
-    /**
-     * Set the normal vector of the plan.
-     *
-     * @param normal The normal vector to set (should be normalized).
-     */
-    public void setNormal(Vector normal) {
-        this.normal = normal;
-    }
-
-    /**
      * Get the origin point of the plan.
      *
      * @return The origin point of the plan.
@@ -47,15 +29,6 @@ public class Plan implements IObjetScene {
     @Override
     public Point getOrigine() {
         return origine;
-    }
-
-    /**
-     * Get the radius of the plan. Since it's a plan, the radius is always 0.
-     *
-     * @return The radius of the plan (always 0).
-     */
-    public double getRayon() {
-        return 0;
     }
 
     /**

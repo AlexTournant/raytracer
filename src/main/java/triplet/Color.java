@@ -40,9 +40,9 @@ public class Color {
 	 *
 	 * @param tri The Color to add.
 	 * @return A new Color resulting from the addition.
-	 * @throws IllegalArgumentException if clamping fails.
+	 * @throws Exception if clamping fails.
 	 */
-	public Color add(Color tri) throws IllegalArgumentException {
+	public Color add(Color tri) throws Exception {
 		Triplet temp = getTriplet().add(tri.getTriplet());
 		if (temp.getX() > 1) {
 			temp.setX(1);

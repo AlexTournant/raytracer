@@ -7,6 +7,7 @@ import objets.IObjetScene;
 import affichage.Image;
 import color.IColorStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class Scene {
     private final Image image;
     private final Map<String, Color> colors;
     private final Map<IObjetScene, IColorStrategy> objets;
-    private final List<ILight> lights;
+    private final ArrayList<ILight> lights;
 
     /**
      * Creates a 3D scene with the specified camera, image, colors, objects, and lights.
@@ -29,7 +30,7 @@ public class Scene {
      * @param objets A collection of 3D objects in the scene and their associated color strategies.
      * @param lights A list of light sources in the scene.
      */
-    public Scene(Camera camera, Image image, Map<String, Color> colors, Map<IObjetScene, IColorStrategy> objets, List<ILight> lights) {
+    public Scene(Camera camera, Image image, Map<String, Color> colors, Map<IObjetScene, IColorStrategy> objets, ArrayList<ILight> lights) {
         this.camera = camera;
         this.image = image;
         this.colors = colors;

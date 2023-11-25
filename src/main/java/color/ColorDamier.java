@@ -34,9 +34,7 @@ public class ColorDamier implements IColorStrategy {
      */
     @Override
     public Color getColor(int i, int j) {
-        int x = i / this.taille;
-        int z = j / this.taille;
-        if ((x + z) % 2 == 0) {
+        if ((i / this.taille + j / this.taille) % 2 == 0) {
             return color1;
         } else {
             return color2;

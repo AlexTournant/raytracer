@@ -1,6 +1,7 @@
 package main;
 
 import calcul.ICalculStrategy;
+import calcul.Image;
 import calcul.Lambert;
 import calcul.Normal;
 import scene.Scene;
@@ -22,29 +23,23 @@ public class Main {
      * @throws Exception if an error occurs during parsing or ray tracing.
      */
     public static void main(String[] args) throws Exception {
-        // Define a list of input file names.
-        ArrayList<String> files = new ArrayList<>();
-        files.add("mystere1.txt");
-        files.add("mystere2.txt");
-        files.add("mystere3.txt");
-
         // Iterate through the input files and process each scene.
-        for (String file : files) {
+        System.out.println(args);
+        for (String file : args) {
             // Parse the scene description from the input file.
             Parser parser = new Parser();
             parser.parse(file);
             Scene scene = parser.getSb().build();
 
             // Choose a rendering strategy based on the presence of lights.
-            ICalculStrategy renderingStrategy;
+            Image image;
             if (!scene.getLights().isEmpty()) {
-                renderingStrategy = new Lambert(scene);
+                image=new Image(scene,new Lambert());
             } else {
-                renderingStrategy = new Normal(scene);
+                image=new Image(scene,new Normal());
             }
-
             // Initiate the ray tracing process with the selected strategy.
-            renderingStrategy.rayTracing();
+            image.rayTracing();
         }
     }
 }

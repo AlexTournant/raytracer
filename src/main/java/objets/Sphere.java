@@ -96,7 +96,6 @@ public class Sphere implements IObjetScene {
         return origine;
     }
 
-
     /**
      * Sets the origin (center) of the sphere to the specified point.
      *

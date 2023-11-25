@@ -1,13 +1,13 @@
 package scene;
 
+import triplet.Color;
 import affichage.Camera;
-import affichage.Image;
-import color.IColorStrategy;
 import light.ILight;
 import objets.IObjetScene;
-import triplet.Color;
+import affichage.Image;
+import color.IColorStrategy;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -36,7 +36,7 @@ public interface Builder {
      *
      * @param lights A list of ILight objects representing the lights in the Scene.
      */
-    void withLights(List<ILight> lights);
+    void withLights(ArrayList<ILight> lights);
 
     /**
      * Set the objects and their color strategies for the Scene being built.

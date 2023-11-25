@@ -1,14 +1,14 @@
 package scene;
 
+import triplet.Color;
 import affichage.Camera;
-import affichage.Image;
-import color.IColorStrategy;
 import light.ILight;
 import objets.IObjetScene;
-import triplet.Color;
+import affichage.Image;
+import color.IColorStrategy;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +20,7 @@ public class SceneBuilder implements Builder{
     private Map<String, Color> colors;
 
     private Map<IObjetScene, IColorStrategy> objets=new LinkedHashMap<>();
-    private List<ILight> lights;
+    private ArrayList<ILight> lights;
 
     /**
      * Set the camera for the scene being built.
@@ -65,10 +65,10 @@ public class SceneBuilder implements Builder{
     /**
      * Set the list of light sources used in the scene.
      *
-     * @param lights A list containing the light sources used in the scene.
+     * @param lights An array list containing the light sources used in the scene.
      */
     @Override
-    public void withLights(List<ILight> lights) {
+    public void withLights(ArrayList<ILight> lights) {
         this.lights = lights;
     }
 
