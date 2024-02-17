@@ -1,3 +1,12 @@
+# Raytracer
+
+Projet universitaire : 
+
+Ce projet a été réalisé dans le cadre de la SAE S3.A.01. Le but était de créer une librairie générant des images avec raytracing. D'abord, il y a lecture d'un fichier descriptif de la scène, ensuite, l'image est générée en utilisant différentes méthodes et classes. Enfin, l'image est créée et disponible au téléchargement. Le calcul des pixels se fait par calculs de vecteurs et de points, en prenant en compte la caméra, les lumières et les différentes formes. Le projet a été réalisé en Java. L'implémentation de patrons de conception était centrale : états, singletons, décorateurs, builders... Le fichier de description possède sa propre syntaxe, celui-ci est lu par un Scanner, puis les informations sont retranscrites pour créer l'image.
+
+# Outil utilisés :
+ - Java
+
 # Rapport
 
 ## Diagramme de classes
