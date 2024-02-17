@@ -11,7 +11,7 @@ Ce projet a été réalisé dans le cadre de la SAE S3.A.01. Le but était de cr
 
 ## Diagramme de classes
 
-![image.png](./image.png)
+![image.png](./UML/diagrammeUML.png)
 (Diagramme de classes)
 
 ---
