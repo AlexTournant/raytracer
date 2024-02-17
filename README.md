@@ -44,68 +44,7 @@ Par la suite nous avons opté pour l'état (state) qui modifie le comportement d
 
 ---
 
-## Répartition des tâches
-
-### **BALLET Dylan :**
-
-**Création des classes :**
-
-* Triplet
-* DirectionalLight
-* PonctualLight
-* Ajout d’une méthode multiplyVector dans Triplet
-* Modification de la classe Triangle
-* Traduction des classes en anglais
-* Création du diagramme des classes
-* Création des commentaires en anglais
-* Création de la JavaDoc
-* Création d’issues avec Maël
-* Création du rapport
-
----
-
-### **DEMORY Maël :**
-
-**Création des classes :**
-
-* Plan
-* Triangle
-* Sphere
-* Scene
-* SceneBuilder
-* Shadow
-* Implémentation du patron de construction
-* Génération d’une image totalement noire
-* Calcul du vecteur direction d pour un pixel (i, j)
-* Calcul de l’intersection d’un rayon avec une sphère
-* Base du lanceur de rayon
-* Calcul de l’intersection avec un plan
-* Développement de la méthode Raytracing
-* Développement des méthodes permettant de gérer les intersections d'un rayon avec une sphère, un plan et un triangle
-* Choix du patron de conception pour les ombres et implémentation
-* Correction des alertes SonarLint
-* Réalisation de la structure du projet (Issue board, jalons, labels).
-* Réalisation des merge requests au sein du projet.
-
----
-
-### FOURNIER Corentin :
-
-**Création des classes :**
-
-* Point
-* Color
-* Vector
-* RayThrower (Début)
-* Trouver le bon patron de conception pour le damier et l’anticrénelage.
-* Rectification d'oublis dans Color
-* Rectification problème dans Triplet
-* Gestion des issues 
-* Réflexion sur anticrénelage et implémentation du pseudo code
-
----
-
-### TOURNANT Alex
+### Travail réalisé :
 
 * Développement de la classe Parser
   * Ouvrir un fichier et lire son contenu
